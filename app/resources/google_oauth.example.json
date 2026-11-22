@@ -1,0 +1,7 @@
+{
+  "clientId": "YOUR_CLIENT_ID.apps.googleusercontent.com",
+  "clientSecret": "YOUR_CLIENT_SECRET",
+  "scopes": ["https://www.googleapis.com/auth/calendar.readonly"],
+  "tokenUri": "https://oauth2.googleapis.com/token",
+  "authUri": "https://accounts.google.com/o/oauth2/v2/auth"
+}
