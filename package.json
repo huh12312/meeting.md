@@ -1,12 +1,10 @@
 {
-  "name": "call-md",
+  "name": "meeting-md",
   "version": "1.0.4",
   "type": "commonjs",
-  "description": "Call.md - Record meetings with real-time transcription and AI-powered insights",
+  "description": "meeting.md - Record meetings with real-time transcription and AI-powered insights",
   "author": {
-    "name": "VideoDB",
-    "email": "support@videodb.io",
-    "url": "https://videodb.io"
+    "name": "meeting.md contributors"
   },
   "license": "MIT",
   "main": "dist/main/index.js",
@@ -19,7 +17,7 @@
     "preview": "vite preview",
     "start": "electron .",
     "rebuild": "electron-builder install-app-deps",
-    "postinstall": "electron-builder install-app-deps",
+    "postinstall": "electron-builder install-app-deps && node scripts/install-linux-capture.js",
     "dist": "npm run build && electron-builder",
     "dist:mac": "npm run build && electron-builder --mac",
     "dist:win": "npm run build && electron-builder --win",

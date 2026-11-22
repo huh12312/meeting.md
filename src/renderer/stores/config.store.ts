@@ -80,7 +80,7 @@ export const useConfigStore = create<ConfigState>()(
       },
     }),
     {
-      name: 'call-md-config',
+      name: 'meeting-md-config',
       // The API key is deliberately absent: localStorage is plaintext on disk
       // and any renderer script can read it. The main process holds the key
       // (encrypted via the OS keyring) and rehydrates it through `get-settings`

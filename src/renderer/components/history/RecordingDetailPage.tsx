@@ -137,15 +137,6 @@ export function RecordingDetailPage({ recordingId, onBack }: RecordingDetailPage
             isReady={isVideoReady}
           />
 
-          {/* Chat with Video Button */}
-          <div className="flex justify-center">
-            <ChatWithVideoButton
-              title={title}
-              videoId={recording.videoId}
-              collectionId={collectionId}
-              disabled={!isVideoReady}
-            />
-          </div>
         </div>
       </div>
     </div>
@@ -530,50 +521,6 @@ function VideoPlayerSection({ playerUrl, isReady }: VideoPlayerSectionProps) {
         )}
       </div>
     </div>
-  );
-}
-
-interface ChatWithVideoButtonProps {
-  title: string
-  videoId: string | null | undefined;
-  collectionId: string | null | undefined;
-  disabled: boolean;
-}
-
-function ChatWithVideoButton({ title, videoId, collectionId, disabled }: ChatWithVideoButtonProps) {
-  const handleClick = () => {
-    if (!videoId || !collectionId) return;
-    const chatUrl = `https://chat.videodb.io?video_id=${videoId}&collection_id=${collectionId}&prompt=${title}`;
-    window.electronAPI?.app.openExternalLink(chatUrl);
-  };
-
-  return (
-    <button
-      onClick={handleClick}
-      disabled={disabled || !videoId || !collectionId}
-      className={cn(
-        "w-[248px] h-[52px] rounded-[32px] shadow-[0px_2px_3px_0px_rgba(0,0,0,0.18)] relative overflow-hidden",
-        (disabled || !videoId || !collectionId) && "opacity-50 cursor-not-allowed"
-      )}
-    >
-      {/* Gradient Background */}
-      <div
-        className="absolute inset-0 rounded-[32px] border-2 border-[#494949]"
-        style={{
-          background: 'linear-gradient(260deg, rgb(0, 0, 0) 4.66%, rgb(30, 30, 30) 99.38%)',
-        }}
-      >
-        <div className="absolute inset-0 rounded-[inherit] shadow-[inset_0px_4px_4px_0px_rgba(255,255,255,0.32)]" />
-      </div>
-
-      {/* Content */}
-      <div className="absolute inset-0 flex items-center justify-center gap-[6px]">
-        <MessageCircle className="h-5 w-5 text-white" />
-        <span className="text-[16px] font-medium text-white tracking-[-0.08px]">
-          Chat with video
-        </span>
-      </div>
-    </button>
   );
 }
 

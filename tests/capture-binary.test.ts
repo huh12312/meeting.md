@@ -22,9 +22,16 @@ test('resolves the packaged Windows capture.exe binary', () => {
   });
 });
 
-test('refuses platforms without an SDK capture target', () => {
+test('resolves the capture-linux helper on Linux', () => {
+  assert.deepEqual(getCaptureBinarySource('/app/videodb/bin', 'linux'), {
+    sourceDirectory: '/app/videodb/bin',
+    binaryName: 'capture',
+  });
+});
+
+test('refuses platforms without a capture target', () => {
   assert.throws(
-    () => getCaptureBinarySource('/app/videodb/bin', 'linux'),
+    () => getCaptureBinarySource('/app/videodb/bin', 'freebsd'),
     /unsupported/
   );
 });

@@ -50,7 +50,7 @@ import {
 import { exportMeetingToMarkdown } from '../markdown-export.service';
 
 
-const log = logger.child({ module: 'call-md' });
+const log = logger.child({ module: 'meeting-md' });
 
 // Types
 
@@ -462,7 +462,7 @@ export class MeetingCopilotService extends EventEmitter {
   }
 
   /**
-   * Export meeting to markdown files in ~/.call_md/
+   * Export meeting to markdown files in ~/.meeting_md/
    */
   private async exportToMarkdown(
     recordingId: number,

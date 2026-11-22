@@ -57,17 +57,10 @@ export function AuthModal({ open, onOpenChange }: AuthModalProps) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Welcome to Call.md</DialogTitle>
+          <DialogTitle>Welcome to meeting.md</DialogTitle>
           <DialogDescription>
-            Enter your VideoDB API key to get started. You can get one at{' '}
-            <a
-              href="https://console.videodb.io"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary hover:underline"
-            >
-              console.videodb.io
-            </a>
+            Enter the API key from your meeting.md server to get started. It is printed in
+            the server log on first start.
           </DialogDescription>
         </DialogHeader>
 
@@ -88,7 +81,7 @@ export function AuthModal({ open, onOpenChange }: AuthModalProps) {
 
           <div className="space-y-2">
             <label htmlFor="apiKey" className="text-sm font-medium">
-              VideoDB API Key
+              API key
             </label>
             <Input
               id="apiKey"

@@ -16,8 +16,8 @@ function getTargetArchName(arch) {
  * @type {import('electron-builder').Configuration}
  */
 const config = {
-  appId: 'com.videodb.call-md',
-  productName: 'Call.md',
+  appId: 'md.meeting.app',
+  productName: 'meeting.md',
   directories: {
     output: 'release',
     buildResources: 'resources',
@@ -62,21 +62,21 @@ const config = {
       },
     ],
     category: 'public.app-category.productivity',
-    icon: 'resources/icon.icns',
+    icon: 'resources/icon.png',
     hardenedRuntime: true,
     gatekeeperAssess: false,
     entitlements: 'build/entitlements.mac.plist',
     entitlementsInherit: 'build/entitlements.mac.plist',
     extendInfo: {
-      NSMicrophoneUsageDescription: 'Call.md needs microphone access to record audio.',
-      NSCameraUsageDescription: 'Call.md needs camera access to record video.',
+      NSMicrophoneUsageDescription: 'meeting.md needs microphone access to record audio.',
+      NSCameraUsageDescription: 'meeting.md needs camera access to record video.',
       NSScreenCaptureUsageDescription:
-        'Call.md needs screen capture access to record your screen.',
+        'meeting.md needs screen capture access to record your screen.',
     },
   },
   dmg: {
-    title: 'Call.md ${version}${arch}',
-    icon: 'resources/icon.icns',
+    title: 'meeting.md ${version}${arch}',
+    icon: 'resources/icon.png',
     window: {
       width: 540,
       height: 380,
@@ -97,7 +97,7 @@ const config = {
   },
   win: {
     target: ['nsis'],
-    icon: 'resources/icon.ico',
+    icon: 'resources/icon.png',
   },
   linux: {
     target: ['AppImage'],

@@ -177,19 +177,29 @@ export function saveAppConfig(config: AppConfig): void {
   }
 }
 
+/**
+ * Self-hosting: the backend URL comes from, in order, the MEETING_MD_API_URL
+ * environment variable, a `runtime.json` in the user data directory (so an
+ * installed build can be repointed without repackaging), then the bundled one.
+ */
 export function loadRuntimeConfig(): RuntimeConfig {
-  const configPath = getRuntimeConfigPath();
-  try {
-    if (fs.existsSync(configPath)) {
-      const data = fs.readFileSync(configPath, 'utf-8');
-      return JSON.parse(data) as RuntimeConfig;
+  let runtimeConfig: RuntimeConfig = { apiPort: 51731 };
+
+  for (const configPath of [getRuntimeConfigPath(), path.join(app.getPath('userData'), RUNTIME_FILENAME)]) {
+    try {
+      if (fs.existsSync(configPath)) {
+        runtimeConfig = { ...runtimeConfig, ...(JSON.parse(fs.readFileSync(configPath, 'utf-8')) as RuntimeConfig) };
+      }
+    } catch (error) {
+      logger.warn({ error, configPath }, 'Failed to load runtime config, skipping it');
     }
-  } catch (error) {
-    logger.warn({ error, configPath }, 'Failed to load runtime config, using defaults');
   }
-  return {
-    apiPort: 51731,
-  };
+
+  const envApiUrl = process.env.MEETING_MD_API_URL?.trim();
+  if (envApiUrl) runtimeConfig.apiUrl = envApiUrl;
+  if (runtimeConfig.apiUrl) runtimeConfig.apiUrl = runtimeConfig.apiUrl.replace(/\/+$/, '');
+
+  return runtimeConfig;
 }
 
 export function loadAuthConfig(): { apiKey: string; name: string } | null {
@@ -238,7 +248,11 @@ export function clearAppConfig(): void {
 // ============================================================================
 
 export function getGoogleOAuthConfigPath(): string {
-  // Google OAuth config is bundled with the app in resources/
+  // No OAuth client ships with the app. Calendar sync needs your own Google
+  // Cloud client: put google_oauth.json (see resources/google_oauth.example.json)
+  // in the user data directory, or bundle one in resources/ for your own builds.
+  const userPath = path.join(app.getPath('userData'), GOOGLE_OAUTH_FILENAME);
+  if (fs.existsSync(userPath)) return userPath;
   if (app.isPackaged) {
     return path.join(process.resourcesPath, 'resources', GOOGLE_OAUTH_FILENAME);
   }

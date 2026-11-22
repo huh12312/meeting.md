@@ -111,7 +111,7 @@ export function TranscriptionPanel() {
 
       {transcriptionLanguage !== AUTO_LANGUAGE && (
         <p className="text-[13px] text-[#969696] leading-[18px]">
-          Language support depends on the VideoDB transcription backend. If the selected language
+          Language support depends on the speech-to-text model your server runs. If the selected language
           is unavailable, transcription falls back to the engine default instead of failing.
         </p>
       )}

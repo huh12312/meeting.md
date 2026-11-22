@@ -2,10 +2,10 @@
  * Markdown Export Service
  *
  * Exports meeting transcripts, summaries, visual analysis, and metrics to markdown files
- * in a globally accessible folder structure (~/.call_md/) for AI agents and other tools.
+ * in a globally accessible folder structure (~/.meeting_md/) for AI agents and other tools.
  *
  * Directory structure:
- *   ~/.call_md/
+ *   ~/.meeting_md/
  *     ├── index.md (list of all meetings)
  *     └── meetings/
  *         └── 2024/
@@ -27,9 +27,9 @@ import type { ConversationMetrics } from './copilot/conversation-metrics.service
 
 const logger = createChildLogger('markdown-export');
 
-const CALL_MD_DIR = path.join(os.homedir(), '.call_md');
-const MEETINGS_DIR = path.join(CALL_MD_DIR, 'meetings');
-const INDEX_FILE = path.join(CALL_MD_DIR, 'index.md');
+const MEETING_MD_DIR = path.join(os.homedir(), '.meeting_md');
+const MEETINGS_DIR = path.join(MEETING_MD_DIR, 'meetings');
+const INDEX_FILE = path.join(MEETING_MD_DIR, 'index.md');
 
 export interface MeetingExportData {
   recordingId: number;
@@ -372,7 +372,7 @@ function updateIndex(data: MeetingExportData, relativePath: string): void {
   entries.sort((a, b) => b.date.localeCompare(a.date));
 
   const lines: string[] = [];
-  lines.push('# Call.md Meeting Index');
+  lines.push('# meeting.md Meeting Index');
   lines.push('');
   lines.push('A chronological index of all recorded meetings.');
   lines.push('');
@@ -395,7 +395,7 @@ function updateIndex(data: MeetingExportData, relativePath: string): void {
  * Export a meeting to markdown files
  */
 export async function exportMeetingToMarkdown(data: MeetingExportData): Promise<string> {
-  initializeCallMdDir();
+  initializeMeetingMdDir();
 
   try {
     const folderPath = getMeetingFolderPath(data.meetingName, data.startedAt);
@@ -412,7 +412,7 @@ export async function exportMeetingToMarkdown(data: MeetingExportData): Promise<
 
     logger.info({ folderPath, meetingName: data.meetingName, sceneCount: scenes.length }, 'Meeting exported to markdown');
 
-    const relativePath = path.relative(CALL_MD_DIR, folderPath);
+    const relativePath = path.relative(MEETING_MD_DIR, folderPath);
     updateIndex(data, relativePath);
 
     return folderPath;
@@ -424,22 +424,22 @@ export async function exportMeetingToMarkdown(data: MeetingExportData): Promise<
 }
 
 /**
- * Get the .call_md directory path
+ * Get the .meeting_md directory path
  */
-export function getCallMdDir(): string {
-  return CALL_MD_DIR;
+export function getMeetingMdDir(): string {
+  return MEETING_MD_DIR;
 }
 
 /**
- * Initialize the .call_md directory structure
+ * Initialize the .meeting_md directory structure
  */
-export function initializeCallMdDir(): void {
-  ensureDirectoryExists(CALL_MD_DIR);
+export function initializeMeetingMdDir(): void {
+  ensureDirectoryExists(MEETING_MD_DIR);
   ensureDirectoryExists(MEETINGS_DIR);
 
   if (!fs.existsSync(INDEX_FILE)) {
     const initialContent = [
-      '# Call.md Meeting Index',
+      '# meeting.md Meeting Index',
       '',
       'A chronological index of all recorded meetings.',
       '',
@@ -451,6 +451,6 @@ export function initializeCallMdDir(): void {
     ].join('\n');
 
     fs.writeFileSync(INDEX_FILE, initialContent, 'utf-8');
-    logger.info({ path: CALL_MD_DIR }, 'Initialized .call_md directory');
+    logger.info({ path: MEETING_MD_DIR }, 'Initialized .meeting_md directory');
   }
 }

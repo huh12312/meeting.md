@@ -24,6 +24,13 @@ export function getCaptureBinarySource(
     };
   }
 
+  if (platform === 'linux') {
+    return {
+      sourceDirectory: binBase,
+      binaryName: 'capture',
+    };
+  }
+
   throw new Error(`VideoDB capture is unsupported on ${platform}`);
 }
 

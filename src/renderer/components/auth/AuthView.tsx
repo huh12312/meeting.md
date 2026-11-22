@@ -6,14 +6,13 @@
  */
 
 import React, { useState } from 'react';
-import { Loader2, ChevronRight } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { useConfigStore } from '../../stores/config.store';
 import { trpc } from '../../api/trpc';
-import { getElectronAPI } from '../../api/ipc';
 import logoIcon from '../../../../resources/icon-color-black-bg.png';
 
 function LogoIcon() {
-  return <img src={logoIcon} width={50} height={50} alt="Call.md" />;
+  return <img src={logoIcon} width={50} height={50} alt="meeting.md" />;
 }
 
 // Step indicators component - exported for use in other setup views
@@ -73,13 +72,6 @@ export function AuthView() {
     }
   };
 
-  const handleGetApiKey = () => {
-    const api = getElectronAPI();
-    if (api) {
-      api.app.openExternalLink('https://console.videodb.io');
-    }
-  };
-
   const isSubmitting = registerMutation.isPending;
   const canSubmit = name.trim().length > 0 && apiKey.trim().length > 0 && !isSubmitting;
 
@@ -106,7 +98,7 @@ export function AuthView() {
           <LogoIcon />
           <div className="flex flex-col items-center gap-[8px]">
             <h1 className="text-[22px] font-semibold text-black text-center tracking-[-0.44px] leading-[33px]">
-              Welcome to Call.md
+              Welcome to meeting.md
             </h1>
             <p className="text-[14px] font-normal text-[#464646] text-center leading-[21px]">
               Record, transcribe, and get AI insights from every meeting.
@@ -134,7 +126,7 @@ export function AuthView() {
           {/* API Key field */}
           <div className="flex flex-col gap-[6px]">
             <label className="text-[13px] font-medium text-[#464646] tracking-[0.26px] leading-[19.5px]">
-              VideoDB API Key
+              API key
             </label>
             <input
               type="password"
@@ -171,19 +163,9 @@ export function AuthView() {
             </button>
 
             {/* Get API key link */}
-            <button
-              type="button"
-              onClick={handleGetApiKey}
-              className="w-full flex items-center justify-center gap-[4px] px-[16px] py-[12px] rounded-[10px] hover:bg-black/5 transition-colors"
-            >
-              <span className="text-[13px] font-medium text-[#464646] tracking-[0.13px] leading-[19.5px]">
-                Don't have an API key?
-              </span>
-              <span className="text-[13px] font-medium text-[#ec5b16] tracking-[0.13px] leading-[19.5px]">
-                Get one
-              </span>
-              <ChevronRight className="w-[14px] h-[14px] text-[#ec5b16]" />
-            </button>
+            <p className="px-[16px] py-[12px] text-center text-[13px] font-medium text-[#464646] tracking-[0.13px] leading-[19.5px]">
+              The API key is printed in your meeting.md server log on first start.
+            </p>
           </div>
         </form>
       </div>

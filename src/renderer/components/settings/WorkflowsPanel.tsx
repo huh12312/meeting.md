@@ -445,7 +445,7 @@ export function WorkflowsPanel() {
           </p>
           <ul className="text-[13px] text-[#969696] space-y-[4px] list-disc list-inside">
             <li>Meeting title, description, and duration</li>
-            <li>VideoDB video ID and player URL</li>
+            <li>Video ID and player URL</li>
             <li>AI-generated summary and topics</li>
             <li>Action items and post-meeting checklist</li>
             <li>Full transcript (if available)</li>

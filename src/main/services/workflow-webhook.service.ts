@@ -197,7 +197,7 @@ export async function testWorkflowWebhook(
     meeting: {
       recordingId: 0,
       title: 'Test Meeting',
-      description: 'This is a test webhook call from Call.md',
+      description: 'This is a test webhook call from meeting.md',
       startedAt: new Date().toISOString(),
       endedAt: new Date().toISOString(),
       durationSeconds: 0,

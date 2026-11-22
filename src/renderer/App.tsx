@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import logoIcon from '../../resources/icon-color-black-bg.png';
-import permissionsVideo from '../../resources/permissions.mp4';
 import { NewSidebar } from './components/layout/NewSidebar';
 import { AuthView } from './components/auth/AuthView';
 import { TopStatusBar } from './components/recording/TopStatusBar';
@@ -42,7 +41,7 @@ import { useNotificationPermission } from './hooks/useNotificationPermission';
 type Tab = 'home' | 'history' | 'settings';
 
 function LogoIcon() {
-  return <img src={logoIcon} width={50} height={50} alt="Call.md" />;
+  return <img src={logoIcon} width={50} height={50} alt="meeting.md" />;
 }
 
 // System audio icon
@@ -326,17 +325,6 @@ function PermissionsView({ onContinue }: { onContinue: () => void }) {
           </div>
         </div>
 
-        {/* Right side - Permissions Video */}
-        <div className="flex-1 h-full min-h-[400px] bg-[#f7f7f7] rounded-[16px] overflow-hidden flex items-center justify-center">
-          <video
-            src={permissionsVideo}
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="w-full h-full object-cover rounded-[16px]"
-          />
-        </div>
       </div>
     </div>
   );

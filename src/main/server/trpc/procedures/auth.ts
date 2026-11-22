@@ -32,13 +32,13 @@ export const authRouter = router({
         };
       }
 
-      // Find or create the call.md collection
+      // Find or create the meeting.md collection
       let collectionId: string;
       try {
-        collectionId = await videodbService.findOrCreateCallMdCollection();
-        logger.info({ collectionId }, 'Using call.md collection');
+        collectionId = await videodbService.findOrCreateMeetingMdCollection();
+        logger.info({ collectionId }, 'Using meeting.md collection');
       } catch (error) {
-        logger.error({ error, name }, 'Failed to setup call.md collection');
+        logger.error({ error, name }, 'Failed to setup meeting.md collection');
         return {
           success: false,
           error: 'Failed to setup collection. Please try again.',

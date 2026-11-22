@@ -78,39 +78,39 @@ export class VideoDBService {
   }
 
   /**
-   * Find or create the "call.md" collection for this user.
+   * Find or create the "meeting.md" collection for this user.
    * Returns the collection ID.
    */
-  async findOrCreateCallMdCollection(): Promise<string> {
+  async findOrCreateMeetingMdCollection(): Promise<string> {
     const conn = this.getConnection();
-    const COLLECTION_NAME = 'call.md Recordings';
+    const COLLECTION_NAME = 'meeting.md Recordings';
 
-    logger.info('Looking for call.md collection...');
+    logger.info('Looking for meeting.md collection...');
 
     try {
-      // List all collections and find the one named "call.md"
+      // List all collections and find the one named "meeting.md"
       const collections = await conn.getCollections();
 
       for (const collection of collections) {
         if (collection.name === COLLECTION_NAME) {
-          logger.info({ collectionId: collection.id }, 'Found existing call.md collection');
+          logger.info({ collectionId: collection.id }, 'Found existing meeting.md collection');
           return collection.id;
         }
       }
 
       // Collection not found, create it
-      logger.info('call.md collection not found, creating...');
+      logger.info('meeting.md collection not found, creating...');
       const newCollection = await conn.createCollection(
         COLLECTION_NAME,
-        'Meeting recordings from Call.md app',
+        'Meeting recordings from meeting.md app',
         false // isPublic
       );
 
-      logger.info({ collectionId: newCollection.id }, 'Created call.md collection');
+      logger.info({ collectionId: newCollection.id }, 'Created meeting.md collection');
       return newCollection.id;
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : String(error);
-      logger.error({ errorMessage }, 'Failed to find or create call.md collection');
+      logger.error({ errorMessage }, 'Failed to find or create meeting.md collection');
       throw error;
     }
   }

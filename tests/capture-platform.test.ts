@@ -9,9 +9,12 @@ test('supports every target shipped by videodb/capture', () => {
 });
 
 test('rejects targets without a capture binary', () => {
-  const linux = getRecordingPlatformSupport('linux', 'x64');
-  assert.equal(linux.supported, false);
-  assert.match(linux.reason ?? '', /linux-x64/);
+  const windowsArm = getRecordingPlatformSupport('win32', 'arm64');
+  assert.equal(windowsArm.supported, false);
+  assert.match(windowsArm.reason ?? '', /win32-arm64/);
+});
 
-  assert.equal(getRecordingPlatformSupport('win32', 'arm64').supported, false);
+test('supports Linux through the capture-linux helper', () => {
+  assert.equal(getRecordingPlatformSupport('linux', 'x64').supported, true);
+  assert.equal(getRecordingPlatformSupport('linux', 'arm64').supported, true);
 });

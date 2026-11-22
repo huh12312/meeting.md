@@ -4,8 +4,8 @@ import type { Recording } from '../../../shared/schemas/recording.schema';
 import { formatDate, formatDurationMinutes, stripMarkdown, cn } from '../../lib/utils';
 import { Tooltip } from '../ui/Tooltip';
 
-// Generate the call_md folder path for a recording
-function getCallMdPath(recording: Recording): string {
+// Generate the meeting_md folder path for a recording
+function getMeetingMdPath(recording: Recording): string {
   const date = new Date(recording.createdAt);
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -18,7 +18,7 @@ function getCallMdPath(recording: Recording): string {
     .toLowerCase()
     .slice(0, 100);
 
-  return `~/.call_md/meetings/${year}/${month}/${day}/${name}`;
+  return `~/.meeting_md/meetings/${year}/${month}/${day}/${name}`;
 }
 
 interface RecordingCardProps {
@@ -85,7 +85,7 @@ function StatusBadge({ status }: { status: RecordingStatus }) {
 
 function CopyPathButton({ recording }: { recording: Recording }) {
   const isDisabled = recording.status === 'recording' || recording.status === 'failed';
-  const path = getCallMdPath(recording);
+  const path = getMeetingMdPath(recording);
 
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -120,7 +120,7 @@ function CopyPathButton({ recording }: { recording: Recording }) {
 
 function OpenFolderButton({ recording }: { recording: Recording }) {
   const isDisabled = recording.status === 'recording' || recording.status === 'failed';
-  const path = getCallMdPath(recording);
+  const path = getMeetingMdPath(recording);
 
   const handleClick = async (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -128,7 +128,7 @@ function OpenFolderButton({ recording }: { recording: Recording }) {
 
     // Use shell.openPath via IPC - the main process will resolve ~ to home dir
     try {
-      await window.electronAPI?.app?.openCallMdFolder?.(path);
+      await window.electronAPI?.app?.openMeetingMdFolder?.(path);
     } catch (err) {
       console.error('Failed to open folder:', err);
     }

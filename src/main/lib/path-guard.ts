@@ -5,7 +5,7 @@ import path from 'path';
  *
  * A plain `targetPath.startsWith(rootPath)` string check is unsafe: it also
  * matches a sibling directory whose name merely shares the prefix, e.g.
- * `~/.call_md_evil` starts with the string `~/.call_md`. This requires the
+ * `~/.meeting_md_evil` starts with the string `~/.meeting_md`. This requires the
  * match to be the root itself or a real path segment under it.
  *
  * Both paths must already be absolute and normalized (e.g. via

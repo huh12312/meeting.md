@@ -114,22 +114,22 @@ export function setupAppHandlers(): void {
     }
   });
 
-  ipcMain.handle('open-call-md-folder', async (_event, folderPath: string): Promise<void> => {
+  ipcMain.handle('open-meeting-md-folder', async (_event, folderPath: string): Promise<void> => {
     // Expand ~ to home directory
     const expandedPath = folderPath.replace(/^~/, os.homedir());
     const absolutePath = path.resolve(expandedPath);
 
-    // Security check: only allow paths under ~/.call_md
-    const callMdRoot = path.join(os.homedir(), '.call_md');
-    if (!isPathWithinRoot(absolutePath, callMdRoot)) {
-      logger.warn({ path: absolutePath }, 'Attempted to open folder outside .call_md');
+    // Security check: only allow paths under ~/.meeting_md
+    const meetingMdRoot = path.join(os.homedir(), '.meeting_md');
+    if (!isPathWithinRoot(absolutePath, meetingMdRoot)) {
+      logger.warn({ path: absolutePath }, 'Attempted to open folder outside .meeting_md');
       return;
     }
 
     try {
       await shell.openPath(absolutePath);
     } catch (error) {
-      logger.error({ error, path: absolutePath }, 'Failed to open call_md folder');
+      logger.error({ error, path: absolutePath }, 'Failed to open meeting_md folder');
     }
   });
 
@@ -157,7 +157,7 @@ export function setupAppHandlers(): void {
     const playerWindow = new BrowserWindow({
       width: 1024,
       height: 768,
-      title: 'Call.md - Player',
+      title: 'meeting.md - Player',
       webPreferences: {
         nodeIntegration: false,
         contextIsolation: true,

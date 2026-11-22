@@ -252,7 +252,7 @@ export interface IpcApi {
     openExternalLink: (url: string) => Promise<void>;
     showNotification: (title: string, body: string) => Promise<void>;
     openPlayerWindow: (url: string) => Promise<void>;
-    openCallMdFolder: (path: string) => Promise<void>;
+    openMeetingMdFolder: (path: string) => Promise<void>;
   };
   visualIndex: {
     saveItem: (data: {

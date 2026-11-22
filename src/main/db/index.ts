@@ -27,7 +27,7 @@ export function getDbPath(): string {
     fs.mkdirSync(dbDir, { recursive: true, mode: DIR_MODE });
   }
 
-  return path.join(dbDir, 'call-md.db');
+  return path.join(dbDir, 'meeting-md.db');
 }
 
 /**

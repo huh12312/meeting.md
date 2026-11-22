@@ -44,7 +44,7 @@ async function rotateApiKeyInternal(apiKey: string): Promise<void> {
     throw new Error('Invalid API key');
   }
 
-  const nextCollectionId = await nextVideoDB.findOrCreateCallMdCollection();
+  const nextCollectionId = await nextVideoDB.findOrCreateMeetingMdCollection();
 
   // An idle CaptureClient may still carry a session token from the old key.
   await shutdownCaptureClient();

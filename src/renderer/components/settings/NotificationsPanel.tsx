@@ -155,7 +155,7 @@ export function NotificationsPanel() {
       <SettingsCard>
         <CardHeader
           title="System Notifications"
-          description="Allow Call.md to send desktop notifications"
+          description="Allow meeting.md to send desktop notifications"
         />
         <div className="px-[20px] py-[16px]">
           <div className="flex items-center justify-between">

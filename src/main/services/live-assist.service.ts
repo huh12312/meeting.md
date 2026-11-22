@@ -11,66 +11,16 @@ import { logger } from '../lib/logger';
 import { getLLMService } from './llm.service';
 import type { LiveInsights } from '../../shared/types/live-assist.types';
 import type { ProbingQuestion } from '../../shared/types/meeting-setup.types';
+import {
+  LIVE_ASSIST_SYSTEM_PROMPT,
+  buildAlreadySuggestedSection,
+  filterNewSuggestions,
+  rememberSuggestions,
+} from '../lib/live-assist-prompt';
 
 const log = logger.child({ module: 'live-assist' });
 
 const LIVE_ASSIST_INTERVAL_MS = 20000; // 20 seconds
-
-const SYSTEM_PROMPT = `You are a live meeting coach. You receive a rolling 20-second transcript from an ongoing meeting. Your job is to surface helpful nudges for the User.
-
-IMPORTANT: All assistance must be directed to the "User" (labeled as [User] in the transcript). Only help the User — do NOT provide assistance for what the other meeting participants (labeled as [Them]) might need. Focus exclusively on what the User can say or ask.
-
----
-
-## CONTEXT YOU MAY RECEIVE
-
-You may receive additional context sections before the transcript:
-
-- **MEETING CONTEXT**: Meeting name, purpose, prep notes, and goals. Use this to keep suggestions aligned with what the User wants to accomplish.
-- **SCREEN CONTENT**: Description of what's on screen. Only use this if it's directly relevant to the current conversation — ignore generic UI descriptions or unrelated content.
-
----
-
-## WHAT TO SURFACE
-
-**say_this** - Things the User could say:
-- A way to respond to something said
-- An opportunity to summarize or steer the conversation
-- A topic worth parking for later
-- A decision that should be captured
-- A commitment someone made that the User should acknowledge
-
-**ask_this** - Questions the User could ask:
-- A clarifying question worth asking
-- A vague claim worth pinning down
-- Follow-up questions to dig deeper
-
-Only surface assists when the User would genuinely benefit. If the conversation is going smoothly and the User doesn't need help, return empty arrays.
-
----
-
-## OUTPUT FORMAT
-
-Return a JSON object with two arrays of strings:
-
-{
-  "say_this": [
-    "That's a great point about the timeline - should we lock in Q3 as our target?"
-  ],
-  "ask_this": [
-    "What specific metrics are behind that 15% number?"
-  ]
-}
-
----
-
-## RULES
-
-- Return 0-3 items per array. Quality over quantity.
-- If the User genuinely doesn't need assistance, return empty arrays.
-- Every suggestion must connect to something in the transcript.
-- Write as ready-to-use first-person lines.
-- Only output the JSON, nothing else.`;
 
 export interface MeetingContext {
   name?: string;
@@ -95,8 +45,8 @@ class LiveAssistService extends EventEmitter {
   private isRunning = false;
   private transcriptBuffer: TranscriptChunk[] = [];
   private visualIndexBuffer: VisualIndexChunk[] = [];
-  private previousSayThis: Set<string> = new Set();
-  private previousAskThis: Set<string> = new Set();
+  private previousSayThis: string[] = [];
+  private previousAskThis: string[] = [];
   private lastProcessedTimestamp = 0;
   private meetingContext: MeetingContext | null = null;
 
@@ -113,8 +63,8 @@ class LiveAssistService extends EventEmitter {
     this.isRunning = true;
     this.transcriptBuffer = [];
     this.visualIndexBuffer = [];
-    this.previousSayThis.clear();
-    this.previousAskThis.clear();
+    this.previousSayThis = [];
+    this.previousAskThis = [];
     this.lastProcessedTimestamp = Date.now();
     this.meetingContext = context || null;
 
@@ -141,8 +91,8 @@ class LiveAssistService extends EventEmitter {
 
     this.transcriptBuffer = [];
     this.visualIndexBuffer = [];
-    this.previousSayThis.clear();
-    this.previousAskThis.clear();
+    this.previousSayThis = [];
+    this.previousAskThis = [];
     this.meetingContext = null;
   }
 
@@ -252,14 +202,16 @@ class LiveAssistService extends EventEmitter {
     const meetingContextSection = this.buildMeetingContextSection();
     const visualIndexSection = this.buildVisualIndexSection(cutoff);
 
-    const userPrompt = `${meetingContextSection}${visualIndexSection}## TRANSCRIPT\n${transcriptText}`;
+    const alreadySuggestedSection = buildAlreadySuggestedSection(this.previousSayThis, this.previousAskThis);
+
+    const userPrompt = `${meetingContextSection}${visualIndexSection}${alreadySuggestedSection}## TRANSCRIPT\n${transcriptText}`;
 
     log.info({ chunkCount: recentChunks.length, textLength: transcriptText.length, hasContext: !!meetingContextSection, hasVisual: !!visualIndexSection }, 'Processing transcript for live assist');
 
     try {
       const llm = getLLMService();
       const response = await llm.chatCompletionJSON<LiveInsights>([
-        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'system', content: LIVE_ASSIST_SYSTEM_PROMPT },
         { role: 'user', content: userPrompt },
       ]);
 
@@ -271,28 +223,12 @@ class LiveAssistService extends EventEmitter {
       const { say_this, ask_this } = response.data;
       log.debug({ say_this, ask_this }, 'Insights generated for this chunk');
 
-      // Filter out duplicates from previous rounds
-      const newSayThis = (say_this || [])
-        .filter(item => !this.previousSayThis.has(item.toLowerCase()))
-        .slice(0, 3);
+      // The prompt asks for no repeats; this also drops reworded ones.
+      const newSayThis = filterNewSuggestions(say_this, this.previousSayThis);
+      const newAskThis = filterNewSuggestions(ask_this, this.previousAskThis);
 
-      const newAskThis = (ask_this || [])
-        .filter(item => !this.previousAskThis.has(item.toLowerCase()))
-        .slice(0, 3);
-
-      // Track these to avoid repetition
-      newSayThis.forEach(item => this.previousSayThis.add(item.toLowerCase()));
-      newAskThis.forEach(item => this.previousAskThis.add(item.toLowerCase()));
-
-      // Keep previous sets manageable (last 20 each)
-      if (this.previousSayThis.size > 20) {
-        const arr = Array.from(this.previousSayThis);
-        this.previousSayThis = new Set(arr.slice(-20));
-      }
-      if (this.previousAskThis.size > 20) {
-        const arr = Array.from(this.previousAskThis);
-        this.previousAskThis = new Set(arr.slice(-20));
-      }
+      this.previousSayThis = rememberSuggestions(this.previousSayThis, newSayThis);
+      this.previousAskThis = rememberSuggestions(this.previousAskThis, newAskThis);
 
       if (newSayThis.length > 0 || newAskThis.length > 0) {
         log.info({ sayCount: newSayThis.length, askCount: newAskThis.length }, 'Generated new live insights');
@@ -312,8 +248,8 @@ class LiveAssistService extends EventEmitter {
   clear(): void {
     this.transcriptBuffer = [];
     this.visualIndexBuffer = [];
-    this.previousSayThis.clear();
-    this.previousAskThis.clear();
+    this.previousSayThis = [];
+    this.previousAskThis = [];
     this.meetingContext = null;
   }
 }

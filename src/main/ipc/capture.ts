@@ -562,7 +562,8 @@ export function setupCaptureHandlers(): void {
       sysAudioWsConnectionId?: string;
       screenWsConnectionId?: string;
     }> => {
-      const { config, sessionToken, accessToken, apiUrl, enableTranscription, enableVisualIndex } = params;
+      const { config, sessionToken, accessToken, enableTranscription, enableVisualIndex } = params;
+      const apiUrl = params.apiUrl || loadRuntimeConfig().apiUrl;
 
       logger.info({ sessionId: config.sessionId, enableTranscription }, 'Starting recording - IPC handler called');
 
@@ -781,7 +782,8 @@ export function setupCaptureHandlers(): void {
 
   ipcMain.handle(
     'recorder-list-channels',
-    async (_event, sessionToken: string, apiUrl?: string): Promise<Channel[]> => {
+    async (_event, sessionToken: string, requestedApiUrl?: string): Promise<Channel[]> => {
+      const apiUrl = requestedApiUrl || loadRuntimeConfig().apiUrl;
       logger.info('recorder-list-channels IPC handler called');
       
       // Reuse existing captureClient to prevent "Another recorder instance" error

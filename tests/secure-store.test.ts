@@ -16,7 +16,7 @@ import os from 'node:os';
 import path from 'node:path';
 import Module from 'node:module';
 
-const tempUserData = fs.mkdtempSync(path.join(os.tmpdir(), 'call-md-secure-store-'));
+const tempUserData = fs.mkdtempSync(path.join(os.tmpdir(), 'meeting-md-secure-store-'));
 
 /** Reversible stand-in for the OS keyring, so round-trips are observable. */
 let encryptionAvailable = true;

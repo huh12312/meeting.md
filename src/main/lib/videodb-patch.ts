@@ -45,7 +45,7 @@ export function applyVideoDBPatches(): void {
     );
 
     // Destination: writable userData directory
-    // e.g., ~/Library/Application Support/call-md/bin
+    // e.g., ~/Library/Application Support/meeting-md/bin
     const destDir = path.join(app.getPath('userData'), 'bin');
 
     logger.info({ srcDir, destDir }, 'Setting up writable binaries');
@@ -93,6 +93,14 @@ export function applyVideoDBPatches(): void {
         // Set cwd to the bin directory so lock files are created there
         const patchedOpts = { ...opts, cwd: destDir };
         logger.debug({ original: cmd, patched: writableBin, cwd: destDir }, 'Intercepted spawn');
+        if (process.platform === 'linux') {
+          // The Linux helper is a script; run it on Electron's own Node so the
+          // app does not depend on a system-wide Node installation.
+          return origSpawn.call(this, process.execPath, [writableBin, ...(args || [])], {
+            ...patchedOpts,
+            env: { ...process.env, ...((opts?.env as NodeJS.ProcessEnv) || {}), ELECTRON_RUN_AS_NODE: '1' },
+          });
+        }
         return origSpawn.call(this, writableBin, args, patchedOpts);
       }
       return origSpawn.call(this, cmd, args, opts);

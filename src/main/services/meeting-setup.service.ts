@@ -85,7 +85,21 @@ export class MeetingSetupService {
       };
     }
 
-    const checklist = response.data.checklist;
+    // The model occasionally answers with a bare array or a differently named
+    // key; accept any list of strings rather than failing the whole wizard.
+    const data: unknown = response.data;
+    const candidate = Array.isArray(data)
+      ? data
+      : (response.data.checklist ??
+        Object.values(data as Record<string, unknown>).find((value) => Array.isArray(value)));
+    const checklist = Array.isArray(candidate)
+      ? candidate.filter((item): item is string => typeof item === 'string' && item.trim().length > 0)
+      : [];
+
+    if (checklist.length === 0) {
+      log.error({ data }, 'Checklist response contained no items');
+      return { success: false, checklist: [], error: 'The model returned no checklist items' };
+    }
 
     log.info({ checklistCount: checklist.length }, 'Meeting checklist generated');
     return { success: true, checklist };

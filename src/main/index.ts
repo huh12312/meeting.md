@@ -43,7 +43,7 @@ import { createVideoDBService } from './services/videodb.service';
 
 let mainWindow: BrowserWindow | null = null;
 const isDev = !app.isPackaged;
-const PROTOCOL_NAME = 'call-md';
+const PROTOCOL_NAME = 'meeting-md';
 
 // Track if app is quitting (for hide-to-tray behavior)
 let isAppQuitting = false;
@@ -58,7 +58,7 @@ export function getAppQuitting(): boolean {
 
 /**
  * Register custom protocol handler for OAuth callbacks
- * This allows OAuth providers to redirect back to the app via call-md://oauth/callback
+ * This allows OAuth providers to redirect back to the app via meeting-md://oauth/callback
  */
 function setupProtocolHandler(): void {
   // Register as default protocol handler (only works in packaged app)
@@ -135,7 +135,7 @@ async function createWindow(): Promise<void> {
     height: 800,
     minWidth: 800,
     minHeight: 600,
-    title: 'Call.md',
+    title: 'meeting.md',
     titleBarStyle: 'hiddenInset',
     trafficLightPosition: { x: 16, y: 16 },
     webPreferences: {
@@ -338,7 +338,7 @@ async function recoverPendingSessions(): Promise<void> {
 }
 
 /**
- * Migrate existing users to use the call.md collection.
+ * Migrate existing users to use the meeting.md collection.
  * For users who registered before this feature was added, find or create
  * the collection and update their record.
  */
@@ -363,14 +363,14 @@ async function migrateExistingUserCollection(): Promise<void> {
     return;
   }
 
-  logger.info({ userId: user.id }, 'Migrating existing user to call.md collection');
+  logger.info({ userId: user.id }, 'Migrating existing user to meeting.md collection');
 
   try {
     const videodbService = createVideoDBService(user.apiKey, runtimeConfig.apiUrl);
-    const collectionId = await videodbService.findOrCreateCallMdCollection();
+    const collectionId = await videodbService.findOrCreateMeetingMdCollection();
 
     updateUser(user.id, { collectionId });
-    logger.info({ userId: user.id, collectionId }, 'User migrated to call.md collection');
+    logger.info({ userId: user.id, collectionId }, 'User migrated to meeting.md collection');
   } catch (error) {
     const errorMsg = error instanceof Error ? error.message : String(error);
     logger.error({ error: errorMsg, userId: user.id }, 'Failed to migrate user collection');
@@ -500,7 +500,7 @@ app.whenReady().then(async () => {
 
     await autoRegister();
 
-    // Migrate existing users to call.md collection (fire and forget)
+    // Migrate existing users to meeting.md collection (fire and forget)
     migrateExistingUserCollection().catch(() => {
       // Error already logged in migrateExistingUserCollection
     });

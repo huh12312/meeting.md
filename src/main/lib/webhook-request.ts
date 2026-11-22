@@ -29,7 +29,7 @@ export async function postWebhook(
           headers: {
             'Content-Type': 'application/json',
             'Content-Length': Buffer.byteLength(body),
-            'User-Agent': 'Call.md/1.0',
+            'User-Agent': 'meeting.md/1.0',
             'X-Workflow-Call-Id': payload.callId,
           },
           lookup: createPinnedLookup(hostname, approvedAddresses),

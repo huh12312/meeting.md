@@ -5,7 +5,7 @@ Branch: `fix/security-hardening-and-issues`
 > Also on this branch: a 2 hour recording cutoff. See
 > [Recording length limit](#recording-length-limit) at the end.
 
-Covers the three open issues on `video-db/call.md`:
+Covers the three open issues on `video-db/meeting.md`:
 
 - [#27](https://github.com/video-db/call.md/issues/27) — Security & Privacy Audit
 - [#25](https://github.com/video-db/call.md/issues/25) — Non-English real-time transcription
@@ -36,7 +36,7 @@ patching `rtstream.js` could not have worked. The app must send `language_code` 
 
 **#29** — There is no Windows installer. `@videodb/recorder@0.2.4` ships binaries for
 `darwin-x64` and `darwin-arm64` only (`binaryConfig.checksums`), and every `.exe` path on
-`artifacts.videodb.io/call.md/` returns 403 while the `.dmg` returns 200. The README's
+`artifacts.videodb.io/meeting.md/` returns 403 while the `.dmg` returns 200. The README's
 "available for macOS and Windows" is inaccurate.
 
 ---
@@ -111,7 +111,7 @@ killing the transcript. Settings → Transcription picks the language.
 
 **#29 — Windows installer.** There is none, and the README claimed otherwise.
 `@videodb/recorder@0.2.4` publishes `darwin-x64` and `darwin-arm64` binaries
-only, and every `.exe` path under `artifacts.videodb.io/call.md/` 403s while the
+only, and every `.exe` path under `artifacts.videodb.io/meeting.md/` 403s while the
 `.dmg` 200s. Replaced the claim with a verified support table, documented
 building on Windows/Linux, added `dist:win` / `dist:linux`, and made
 `recorder-start-recording` return a clear message on unsupported platforms
@@ -120,7 +120,7 @@ instead of failing inside the native layer.
 ### Evidence
 
 Run against a build on an isolated `--user-data-dir` (the machine's real
-Call.md data was left untouched):
+meeting.md data was left untouched):
 
 ```
 listening socket   TCP 127.0.0.1:51799 (LISTEN)     # unpatched build: TCP *:51731

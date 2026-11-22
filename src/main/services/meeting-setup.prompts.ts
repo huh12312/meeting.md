@@ -50,7 +50,9 @@ Rules:
 
 You will receive the meeting name, description, probing questions, and
 the user's selected answers. Respond ONLY with the JSON object below -
-no explanation, no markdown fences, no preamble.`;
+no explanation, no markdown fences, no preamble.
+
+{"checklist":["...","..."]}`;
 
 export function buildChecklistUserPrompt(
   name: string,

@@ -701,7 +701,7 @@ export function HomeView({ onStartRecording, onNavigateToHistory, onNavigateToSe
               <PermissionItem
                 icon={<NotificationIcon enabled={notificationsEnabled} />}
                 title="App notification"
-                description="Allow call.md to send notification and reminders"
+                description="Allow meeting.md to send notification and reminders"
                 enabled={notificationsEnabled}
                 onChange={handleToggleNotifications}
                 isLast
