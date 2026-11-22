@@ -1,0 +1,54 @@
+meeting.md
+==========
+
+meeting.md's own code is licensed under the MIT License (see LICENSE). It
+builds on, or is distributed alongside, the third-party work below, which
+remains under its own terms.
+
+Desktop app (app/)
+------------------
+Derived from Call.md, https://github.com/video-db/call.md
+Copyright (c) VideoDB (Spext Labs Inc.). Declared "MIT" in the upstream
+package.json. "Call.md" and "VideoDB" are names of their respective owner;
+meeting.md is an independent project and is not affiliated with or endorsed by
+VideoDB.
+
+The app depends on the `videodb` npm package (Apache License 2.0). On macOS and
+Windows that package downloads VideoDB's capture binary at install time. The
+binary is VideoDB's proprietary software; it is not included in this repository
+or in any meeting.md release artifact.
+
+Docker image (server/)
+----------------------
+The published image contains software that is not covered by meeting.md's
+license:
+
+- Claude Code CLI (@anthropic-ai/claude-code), (c) Anthropic PBC, all rights
+  reserved. Installed unmodified from npm. Its use is subject to Anthropic's
+  Commercial Terms of Service (https://www.anthropic.com/legal/commercial-terms)
+  and Usage Policy; by using the claude-code provider you agree to those terms.
+  Authenticate it with your own Anthropic API key. Build the image with
+  --build-arg INSTALL_CLAUDE_CODE=0 to leave it out.
+
+- FFmpeg, as packaged by Alpine Linux, licensed under the GNU General Public
+  License version 2 or later. Source: https://ffmpeg.org and the Alpine
+  aports tree (https://gitlab.alpinelinux.org/alpine/aports).
+
+- Node.js and the Alpine Linux base system, under their respective licenses.
+
+- npm dependencies of the server: @anthropic-ai/sdk (MIT) and ws (MIT).
+
+Services run alongside it (docker-compose.yml)
+----------------------------------------------
+Pulled from their own registries, not redistributed by meeting.md:
+
+- MediaMTX (MIT), https://github.com/bluenviron/mediamtx
+- speaches (MIT), https://github.com/speaches-ai/speaches, serving Whisper
+  models published by Systran and OpenAI under their own licenses
+- Ollama (MIT), optional
+
+Test material
+-------------
+The end-to-end notes refer to meeting ES2002a from the AMI Meeting Corpus
+(https://groups.inf.ed.ac.uk/ami/corpus/), licensed CC BY 4.0. The audio is not
+included in this repository.

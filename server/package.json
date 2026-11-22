@@ -1,0 +1,19 @@
+{
+  "name": "meeting-md-server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Self-hosted, VideoDB-API-compatible backend for Call.md",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node --test test/"
+  },
+  "engines": {
+    "node": ">=22.13"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.12.0",
+    "ws": "^8.21.3"
+  }
+}

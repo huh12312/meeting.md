@@ -1,0 +1,68 @@
+# Self-hosted backend for Call.md: API + event socket, RTSP ingest, local Whisper.
+#   deploy/gen-cert.sh && cp .env.example .env && docker compose up -d
+# Add `--profile ollama` for a local LLM as well.
+services:
+  server:
+    # A published release, e.g. MEETING_MD_IMAGE=<dockerhub user>/meeting.md:1.0.0;
+    # unset, the image is built from ./server.
+    image: ${MEETING_MD_IMAGE:-meeting.md:local}
+    build: ./server
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATA_DIR: /data
+      RTSP_INTERNAL_URL: rtsp://mediamtx:8554
+      RTSP_TLS_CERT: /certs/rtsp.crt
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "8080:8080"
+    volumes:
+      - data:/data
+      - ./deploy/certs:/certs:ro
+    depends_on:
+      - mediamtx
+
+  mediamtx:
+    image: bluenviron/mediamtx:1.21.4
+    restart: unless-stopped
+    ports:
+      - "8554:8554" # RTSP  (Linux capture helper)
+      - "8322:8322" # RTSPS (stock macOS/Windows capture binary)
+    volumes:
+      - ./deploy/mediamtx.yml:/mediamtx.yml:ro
+      - ./deploy/certs:/certs:ro
+
+  # OpenAI-compatible Whisper. Swap the tag for `latest-cuda` on an NVIDIA host.
+  stt:
+    image: ghcr.io/speaches-ai/speaches:latest-cpu
+    restart: unless-stopped
+    volumes:
+      - stt-models:/home/ubuntu/.cache/huggingface/hub
+
+  # Downloads the Whisper model once, then exits.
+  stt-init:
+    image: curlimages/curl:latest
+    restart: "no"
+    depends_on:
+      - stt
+    environment:
+      STT_MODEL: ${STT_MODEL:-Systran/faster-whisper-base.en}
+    entrypoint:
+      - sh
+      - -c
+      - |
+        until curl -sf http://stt:8000/health >/dev/null; do sleep 2; done
+        curl -sf -X POST "http://stt:8000/v1/models/$${STT_MODEL}" && echo
+
+  ollama:
+    image: ollama/ollama:latest
+    profiles: ["ollama"]
+    restart: unless-stopped
+    volumes:
+      - ollama:/root/.ollama
+
+volumes:
+  data:
+  stt-models:
+  ollama:

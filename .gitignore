@@ -1,0 +1,11 @@
+node_modules/
+.env
+data/
+deploy/certs/
+upstream/
+e2e/jfk.wav
+app/dist/
+app/release/
+review/
+e2e/sample/
+e2e/node_modules/

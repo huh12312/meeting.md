@@ -1,0 +1,326 @@
+#!/usr/bin/env node
+/**
+ * Linux stand-in for the VideoDB capture binary.
+ *
+ * Upstream ships that binary for macOS and Windows only. It is driven by the
+ * `videodb/capture` SDK over stdio (one `videodb_recorder|{json}` line per
+ * message) and publishes each channel to the backend over RTSP. This speaks the
+ * same two protocols, using PipeWire/PulseAudio and ffmpeg to do the capturing.
+ */
+'use strict';
+
+const { spawn, execFileSync } = require('node:child_process');
+const readline = require('node:readline');
+const path = require('node:path');
+const fs = require('node:fs');
+const os = require('node:os');
+const tls = require('node:tls');
+const crypto = require('node:crypto');
+
+const PREFIX = 'videodb_recorder|';
+const FFMPEG = process.env.MEETING_MD_FFMPEG || 'ffmpeg';
+const FPS = Number(process.env.MEETING_MD_SCREEN_FPS || 10);
+
+const state = { apiUrl: 'http://localhost:8080', token: '', session: null, publishers: new Map(), tlsArgs: [] };
+
+const log = (...args) => process.stderr.write(`[capture-linux] ${args.join(' ')}\n`);
+const write = (message) => process.stdout.write(PREFIX + JSON.stringify(message) + '\n');
+const emit = (event, payload = {}) => write({ type: 'event', event, payload });
+
+function sh(command, args) {
+  try {
+    return execFileSync(command, args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+  } catch {
+    return '';
+  }
+}
+const has = (command) => Boolean(sh('sh', ['-c', `command -v ${command}`]));
+
+// ------------------------------------------------------------------- channels
+
+/**
+ * How to capture the screen here, or null when nothing usable is installed.
+ * MEETING_MD_SCREEN_INPUT overrides it with raw ffmpeg input arguments.
+ */
+function screenBackend() {
+  if (process.env.MEETING_MD_SCREEN_INPUT) return 'custom';
+  if (process.env.MEETING_MD_SCREEN === 'off') return null;
+  if (process.env.XDG_SESSION_TYPE === 'wayland' || process.env.WAYLAND_DISPLAY) {
+    const ready = has('python3') && has('gst-launch-1.0') &&
+      sh('gst-inspect-1.0', ['pipewiresrc']).includes('Factory Details') &&
+      sh('python3', ['-c', 'import dbus, gi; print(1)']) === '1';
+    return ready ? 'portal' : null;
+  }
+  return process.env.DISPLAY ? 'x11' : null;
+}
+
+function listChannels() {
+  const channels = [];
+  const source = process.env.MEETING_MD_MIC_INPUT ? 'custom' : sh('pactl', ['get-default-source']);
+  const sink = process.env.MEETING_MD_SYSTEM_AUDIO_INPUT ? 'custom' : sh('pactl', ['get-default-sink']);
+  if (source) channels.push({ channel_id: 'mic:default', type: 'audio', name: 'Microphone', is_default: true });
+  if (sink) channels.push({ channel_id: 'system_audio:default', type: 'audio', name: 'System Audio', is_default: true });
+  if (screenBackend()) channels.push({ channel_id: 'display:1', type: 'video', name: 'Display 1', is_default: true });
+  return channels;
+}
+
+const splitArgs = (value) => value.match(/(?:[^\s"]+|"[^"]*")+/g).map((arg) => arg.replace(/^"|"$/g, ''));
+
+/** ffmpeg input arguments for a channel, plus an optional process feeding stdin. */
+function inputFor(channelId) {
+  if (channelId.startsWith('mic:')) {
+    if (process.env.MEETING_MD_MIC_INPUT) return { args: splitArgs(process.env.MEETING_MD_MIC_INPUT) };
+    return { args: ['-f', 'pulse', '-i', sh('pactl', ['get-default-source']) || 'default'] };
+  }
+  if (channelId.startsWith('system_audio:')) {
+    if (process.env.MEETING_MD_SYSTEM_AUDIO_INPUT) return { args: splitArgs(process.env.MEETING_MD_SYSTEM_AUDIO_INPUT) };
+    return { args: ['-f', 'pulse', '-i', `${sh('pactl', ['get-default-sink'])}.monitor`] };
+  }
+  switch (screenBackend()) {
+    case 'custom':
+      return { args: splitArgs(process.env.MEETING_MD_SCREEN_INPUT) };
+    case 'x11':
+      return { args: ['-f', 'x11grab', '-framerate', String(FPS), '-i', process.env.DISPLAY] };
+    case 'portal':
+      // The helper negotiates a ScreenCast portal session and writes raw frames
+      // (yuv4mpeg) to stdout for as long as it runs.
+      return {
+        args: ['-f', 'yuv4mpegpipe', '-i', 'pipe:0'],
+        feeder: ['python3', [path.join(__dirname, 'portal-screencast.py'), String(FPS)]],
+      };
+    default:
+      throw new Error('No screen capture backend is available on this system');
+  }
+}
+
+const outputFor = (type) =>
+  type === 'video'
+    ? ['-an', '-c:v', 'libx264', '-preset', 'veryfast', '-tune', 'zerolatency', '-pix_fmt', 'yuv420p',
+        '-vf', 'scale=trunc(iw/2)*2:trunc(ih/2)*2', '-g', String(FPS * 2), '-b:v', '1500k']
+    : ['-vn', '-ac', '1', '-ar', '48000', '-c:a', 'libopus', '-b:a', '48k', '-application', 'voip'];
+
+// ----------------------------------------------------------------- publishing
+
+/**
+ * RTSPS uses a self-signed certificate that the API pins by public-key hash,
+ * the same scheme the stock capture binary uses. Fetch the certificate, check
+ * it against the pin, then have ffmpeg trust exactly that certificate.
+ */
+function pinnedTlsArgs(rtspUrl, expectedHash) {
+  const { hostname, port } = new URL(rtspUrl.replace(/^rtsps:/, 'https:'));
+  if (!expectedHash) throw new Error('RTSPS stream offered without ssl_certificate_hash');
+  return new Promise((resolve, reject) => {
+    const socket = tls.connect({ host: hostname, port: Number(port) || 322, rejectUnauthorized: false }, () => {
+      try {
+        const cert = socket.getPeerX509Certificate();
+        const spki = cert.publicKey.export({ type: 'spki', format: 'der' });
+        const digest = crypto.createHash('sha256').update(spki).digest();
+        const expected = String(expectedHash).replace(/^sha256[/:]/i, '');
+        if (expected !== digest.toString('base64') && expected.toLowerCase() !== digest.toString('hex')) {
+          throw new Error(`RTSPS certificate for ${hostname} does not match the pinned hash`);
+        }
+        const file = path.join(os.tmpdir(), `meeting-md-rtsps-${process.pid}.pem`);
+        fs.writeFileSync(file, cert.toString(), { mode: 0o600 });
+        const san = /DNS:([^,\s]+)/.exec(cert.subjectAltName || '');
+        const name = san ? san[1] : (/CN=([^\n,]+)/.exec(cert.subject || '') || [])[1] || hostname;
+        resolve(['-ca_file', file, '-verifyhost', name]);
+      } catch (err) {
+        reject(err);
+      } finally {
+        socket.end();
+      }
+    });
+    socket.setTimeout(10000, () => socket.destroy(new Error(`RTSPS connect to ${hostname} timed out`)));
+    socket.on('error', reject);
+  });
+}
+
+function startPublisher(channel) {
+  const { args, feeder } = inputFor(channel.channel_id);
+  const ffmpeg = spawn(
+    FFMPEG,
+    ['-hide_banner', '-loglevel', 'error', '-nostdin', ...args, ...outputFor(channel.type),
+      ...(channel.rtsp_url.startsWith('rtsps:') ? state.tlsArgs : []), '-f', 'rtsp', '-rtsp_transport', 'tcp', channel.rtsp_url].filter((arg) => !(feeder && arg === '-nostdin')),
+    { stdio: [feeder ? 'pipe' : 'ignore', 'ignore', 'pipe'] }
+  );
+  const procs = [ffmpeg];
+  if (feeder) {
+    const source = spawn(feeder[0], feeder[1], { stdio: ['ignore', 'pipe', 'pipe'] });
+    source.stdout.pipe(ffmpeg.stdin);
+    ffmpeg.stdin.on('error', () => {});
+    source.stderr.on('data', (chunk) => log(`${channel.channel_id}: ${String(chunk).trim()}`));
+    source.on('exit', () => ffmpeg.stdin.end());
+    procs.push(source);
+  }
+  ffmpeg.stderr.on('data', (chunk) => log(`${channel.channel_id}: ${String(chunk).trim()}`));
+  ffmpeg.on('exit', (code) => {
+    const entry = state.publishers.get(channel.channel_id);
+    if (!entry || entry.procs !== procs) return; // stopped or paused on purpose
+    state.publishers.delete(channel.channel_id);
+    emit('recording:error', { channel_id: channel.channel_id, message: `publisher exited with code ${code}` });
+  });
+  state.publishers.set(channel.channel_id, { channel, procs });
+  log(`publishing ${channel.channel_id} -> ${channel.rtsp_url}`);
+}
+
+function stopPublisher(channelId) {
+  const entry = state.publishers.get(channelId);
+  if (!entry) return Promise.resolve();
+  state.publishers.delete(channelId);
+  return Promise.all(
+    entry.procs.map(
+      (proc) =>
+        new Promise((resolve) => {
+          if (proc.exitCode !== null || proc.signalCode) return resolve();
+          const kill = setTimeout(() => proc.kill('SIGKILL'), 3000);
+          proc.once('exit', () => {
+            clearTimeout(kill);
+            resolve();
+          });
+          proc.kill('SIGINT');
+        })
+    )
+  );
+}
+
+async function api(pathname, body) {
+  const res = await fetch(state.apiUrl.replace(/\/+$/, '') + pathname, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json', 'x-access-token': state.token },
+    body: JSON.stringify(body),
+    signal: AbortSignal.timeout(15000),
+  });
+  const json = await res.json().catch(() => ({}));
+  if (!res.ok || json.success === false) throw new Error(json.message || `HTTP ${res.status}`);
+  return json.data || {};
+}
+
+const trackOf = (channelId) => (channelId.startsWith('display:') || channelId.startsWith('screen:') ? 'screen' : channelId.split(':')[0]);
+
+// ------------------------------------------------------------------- commands
+
+const commands = {
+  async init(params) {
+    state.apiUrl = params.apiUrl || state.apiUrl;
+    state.token = params.sessionToken || state.token;
+    return { initialized: true, version: 'linux-0.1.0' };
+  },
+
+  async ping() {
+    return { pong: true };
+  },
+
+  async getChannels() {
+    return { channels: listChannels() };
+  },
+
+  // PipeWire has no per-app grant to request; the screen portal prompts on use.
+  async requestPermission() {
+    return { status: 'granted' };
+  },
+
+  async getPermissionStatus() {
+    return { status: 'granted' };
+  },
+
+  async startRecording(params) {
+    if (state.session) throw new Error('BUSY: a recording is already running');
+    if (!params.sessionId) throw new Error("Missing 'sessionId' parameter");
+    if (!Array.isArray(params.channels) || !params.channels.length) throw new Error('MISSING_CHANNELS');
+    if (params.uploadToken) state.token = params.uploadToken;
+
+    const started = await api('/capture/session/start', {
+      session_id: params.sessionId,
+      channels: params.channels,
+      primary_video_channel_id: params.primary_video_channel_id,
+    });
+    const secure = (started.channels || []).find((channel) => String(channel.rtsp_url).startsWith('rtsps:'));
+    state.tlsArgs = secure ? await pinnedTlsArgs(secure.rtsp_url, started.ssl_certificate_hash) : [];
+    state.session = { id: params.sessionId, channels: new Map() };
+    for (const assigned of started.channels || []) {
+      const requested = params.channels.find((channel) => channel.channel_id === assigned.channel_id) || {};
+      const channel = { ...assigned, type: requested.type || 'audio' };
+      state.session.channels.set(channel.channel_id, channel);
+      try {
+        startPublisher(channel);
+      } catch (err) {
+        emit('recording:error', { channel_id: channel.channel_id, message: err.message });
+      }
+    }
+    emit('recording:started', { sessionId: params.sessionId });
+    return { sessionId: params.sessionId, status: 'recording' };
+  },
+
+  async stopRecording() {
+    const session = state.session;
+    if (!session) return { status: 'NO_ACTIVE_SESSION' };
+    state.session = null;
+    await Promise.all([...state.publishers.keys()].map(stopPublisher));
+    try {
+      await api(`/capture/session/${encodeURIComponent(session.id)}/stop`, {});
+    } catch (err) {
+      log(`stop_session failed: ${err.message}`);
+    }
+    emit('recording:stopped', { sessionId: session.id });
+    return { sessionId: session.id, status: 'stopped' };
+  },
+
+  // A paused publisher simply disconnects; the backend records each
+  // reconnect as a new segment placed at its wall-clock offset.
+  async pauseTracks({ tracks = [] }) {
+    const ids = [...state.publishers.keys()].filter((id) => tracks.includes(trackOf(id)));
+    await Promise.all(ids.map(stopPublisher));
+    return { paused: tracks };
+  },
+
+  async resumeTracks({ tracks = [] }) {
+    if (!state.session) return { resumed: [] };
+    for (const [id, channel] of state.session.channels) {
+      if (tracks.includes(trackOf(id)) && !state.publishers.has(id)) startPublisher(channel);
+    }
+    return { resumed: tracks };
+  },
+
+  async shutdown() {
+    await commands.stopRecording();
+    setImmediate(() => process.exit(0));
+    return { shutdown: true };
+  },
+};
+
+async function dispatch(line) {
+  if (!line.startsWith(PREFIX)) return;
+  let message;
+  try {
+    message = JSON.parse(line.slice(PREFIX.length));
+  } catch {
+    return log('unparseable command');
+  }
+  const { command, commandId, params = {} } = message;
+  const handler = commands[command];
+  try {
+    if (!handler) throw new Error(`Unknown command: ${command}`);
+    write({ type: 'response', commandId, status: 'success', result: await handler(params) });
+  } catch (err) {
+    write({ type: 'response', commandId, status: 'error', result: { message: err.message } });
+  }
+}
+
+if (process.argv.includes('--channels')) {
+  console.log(JSON.stringify(listChannels(), null, 2));
+  process.exit(0);
+}
+if (!fs.existsSync(path.join(__dirname, 'portal-screencast.py'))) log('portal-screencast.py missing; Wayland screen capture disabled');
+
+const rl = readline.createInterface({ input: process.stdin, terminal: false });
+rl.on('line', (line) => dispatch(line));
+rl.on('close', async () => {
+  await commands.stopRecording();
+  process.exit(0);
+});
+for (const signal of ['SIGINT', 'SIGTERM']) {
+  process.on(signal, async () => {
+    await commands.stopRecording();
+    process.exit(0);
+  });
+}

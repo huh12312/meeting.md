@@ -1,0 +1,25 @@
+# RTSP ingest for meeting-md. Capture clients publish one path per stream
+# (the path is the unguessable rtstream id); the API server reads them back.
+logLevel: info
+
+rtsp: yes
+rtspTransports: [tcp]
+rtspAddress: :8554
+# "optional" serves plain RTSP on 8554 and RTSPS on 8322 from the same paths.
+# The stock macOS/Windows capture binary insists on RTSPS; the Linux helper
+# and the API server are happy with either.
+rtspEncryption: "optional"
+rtspsAddress: :8322
+rtspServerKey: /certs/rtsp.key
+rtspServerCert: /certs/rtsp.crt
+
+rtmp: no
+hls: no
+webrtc: no
+srt: no
+moq: no
+api: no
+metrics: no
+
+paths:
+  all_others:
