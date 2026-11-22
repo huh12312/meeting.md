@@ -3,9 +3,10 @@
 # Add `--profile ollama` for a local LLM as well.
 services:
   server:
-    # A published release, e.g. MEETING_MD_IMAGE=<dockerhub user>/meeting.md:1.0.0;
-    # unset, the image is built from ./server.
-    image: ${MEETING_MD_IMAGE:-meeting.md:local}
+    # Pulled from Docker Hub unless it is already present locally. To run your
+    # own build instead: `docker compose build server` before `up`.
+    image: ${MEETING_MD_IMAGE:-masterhuh/meeting.md:latest}
+    pull_policy: missing
     build: ./server
     restart: unless-stopped
     env_file: .env

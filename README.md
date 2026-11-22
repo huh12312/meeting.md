@@ -8,9 +8,17 @@ The desktop app is a fork of [Call.md](https://github.com/video-db/call.md) by
 VideoDB, which sends all of that to VideoDB's cloud. meeting.md is not
 affiliated with or endorsed by VideoDB.
 
-| Sign-in | Dashboard |
+| During the meeting | Afterwards |
 | --- | --- |
-| ![Sign-in screen](docs/images/login.png) | ![Dashboard](docs/images/dashboard.png) |
+| ![Live transcript and suggestions](docs/images/live.png) | ![Summary, key points and recording](docs/images/results.png) |
+
+| Sign-in | Dashboard | Meeting prep |
+| --- | --- | --- |
+| ![Sign-in screen](docs/images/login.png) | ![Dashboard](docs/images/dashboard.png) | ![AI-generated checklist](docs/images/checklist.png) |
+
+Screenshots are from a real run using the Claude Code provider. The meeting
+shown is ES2002a from the [AMI Meeting Corpus](https://groups.inf.ed.ac.uk/ami/corpus/)
+(CC BY 4.0).
 
 ```
 app/            desktop app (fork of Call.md): backend URL override, Linux recording
@@ -41,22 +49,53 @@ desktop app ──REST + WebSocket──▶ server ──▶ LLM: OpenAI-compati
 
 ## Run the backend
 
-Needs Docker. On a CPU, use Whisper `base` (the default); `small` and larger
-need a GPU to keep up with live audio.
+Needs Docker and git. Whisper runs on the CPU by default.
+
+### Quick start: published image
 
 ```sh
+git clone https://github.com/huh12312/meeting.md && cd meeting.md
 deploy/gen-cert.sh                 # self-signed cert for RTSPS, pinned by clients
-cp .env.example .env               # then set LLM_BASE_URL / LLM_MODEL
+cp .env.example .env               # then choose an LLM, see "LLM providers"
 docker compose up -d
 docker compose logs server         # prints the generated API key on first start
 ```
 
-That builds the server image from `./server`. To run a published release
-instead, set `MEETING_MD_IMAGE=<dockerhub user>/meeting.md:<version>` in `.env`.
+`docker compose up` pulls the server image
+[`masterhuh/meeting.md`](https://hub.docker.com/r/masterhuh/meeting.md) from Docker Hub
+(amd64 and arm64), along with MediaMTX and a Whisper server. To pin a version,
+set `MEETING_MD_IMAGE=masterhuh/meeting.md:0.1.0` in `.env`.
+
+### Build it yourself
+
+Same steps, but build the server image from this repository before starting:
+
+```sh
+docker compose build server        # add --build-arg INSTALL_CLAUDE_CODE=0 for a smaller image without the Claude Code CLI
+docker compose up -d
+```
+
+A locally built image takes precedence over the published one until you remove
+it or run `docker compose pull server`.
+
+### Without Docker
+
+Run MediaMTX with `deploy/mediamtx.yml` and any OpenAI-compatible Whisper
+server, then:
+
+```sh
+cd server && npm install
+LLM_PROVIDER=… STT_BASE_URL=http://localhost:8000/v1 node src/index.js
+```
+
+Needs Node 22.13+ and ffmpeg on the PATH.
+
+### Settings
 
 `.env` is commented. The two things you must decide are the LLM provider (next
 section) and, if the app runs on another machine, `PUBLIC_URL` /
-`RTSP_PUBLISH_URL`.
+`RTSP_PUBLISH_URL`. On a CPU, keep Whisper `base` (the default); `small` and
+larger need a GPU to keep up with live audio.
 
 ## LLM providers
 
@@ -96,9 +135,6 @@ login, so meeting.md does not support running it that way. With an API key the
 `anthropic` provider does the same job with less overhead; `claude-code` is
 there for setups that standardise on the CLI.
 
-Without Docker: run MediaMTX with `deploy/mediamtx.yml`, then
-`cd server && npm install && LLM_PROVIDER=… STT_BASE_URL=… node src/index.js`
-(Node 22.13+ and ffmpeg on the PATH).
 
 ## Run the app
 
@@ -139,6 +175,10 @@ Verified on Linux (Arch, Node 26, ffmpeg 9), against the unmodified `videodb`
 - a real meeting end to end on `claude-code` (Sonnet): ten minutes of a
   four-person meeting from the AMI corpus through the app, covering the setup
   wizard, live assist, summary, key points and action items
+- the published Docker Hub image: pulled, run with building disabled, and put
+  through the SDK-driven end-to-end test and a recording from the app
+- back-to-back meetings in one app session, each getting its own live-assist
+  context
 - `anthropic` provider against a mock Messages endpoint through the real SDK:
   request translation, tool round-trips with thinking blocks replayed, images,
   JSON mode, streaming, refusal and error mapping
