@@ -38,7 +38,7 @@ function Toggle({
     <button
       onClick={() => onChange(!enabled)}
       className={`w-[38px] h-[22px] rounded-full relative transition-colors ${
-        enabled ? 'bg-[#ec5b16]' : 'bg-[#e4e4ec]'
+        enabled ? 'bg-[#1e3a8a]' : 'bg-[#e4e4ec]'
       }`}
     >
       <div
@@ -244,7 +244,7 @@ export function WorkflowsPanel() {
         {!showForm && (
           <button
             onClick={handleAdd}
-            className="flex items-center gap-[6px] px-[14px] py-[8px] bg-[#ec5b16] hover:bg-[#d9520f] text-white text-[13px] font-medium rounded-[8px] transition-colors"
+            className="flex items-center gap-[6px] px-[14px] py-[8px] bg-[#1e3a8a] hover:bg-[#172554] text-white text-[13px] font-medium rounded-[8px] transition-colors"
           >
             <Plus className="h-[14px] w-[14px]" />
             Add Workflow
@@ -289,7 +289,7 @@ export function WorkflowsPanel() {
                 placeholder="e.g., Notion Sync, n8n Workflow"
                 value={formName}
                 onChange={(e) => setFormName(e.target.value)}
-                className="w-full px-[12px] py-[10px] text-[14px] text-[#141420] bg-white border border-[#ededf3] rounded-[10px] outline-none focus:border-[#ec5b16] focus:ring-1 focus:ring-[#ec5b16]/20 transition-colors placeholder:text-[#969696]"
+                className="w-full px-[12px] py-[10px] text-[14px] text-[#141420] bg-white border border-[#ededf3] rounded-[10px] outline-none focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a]/20 transition-colors placeholder:text-[#969696]"
               />
             </div>
 
@@ -300,7 +300,7 @@ export function WorkflowsPanel() {
                 placeholder="https://your-webhook-url.com/hook"
                 value={formUrl}
                 onChange={(e) => setFormUrl(e.target.value)}
-                className="w-full px-[12px] py-[10px] text-[14px] text-[#141420] bg-white border border-[#ededf3] rounded-[10px] outline-none focus:border-[#ec5b16] focus:ring-1 focus:ring-[#ec5b16]/20 transition-colors placeholder:text-[#969696] font-mono text-[13px]"
+                className="w-full px-[12px] py-[10px] text-[14px] text-[#141420] bg-white border border-[#ededf3] rounded-[10px] outline-none focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a]/20 transition-colors placeholder:text-[#969696] font-mono text-[13px]"
               />
               <p className="text-[12px] text-[#969696]">
                 The URL that will receive POST requests with meeting data
@@ -321,7 +321,7 @@ export function WorkflowsPanel() {
               <button
                 onClick={handleSave}
                 disabled={isSaving}
-                className="flex items-center gap-[6px] px-[16px] py-[10px] bg-[#ec5b16] hover:bg-[#d9520f] text-white text-[14px] font-medium rounded-[10px] transition-colors disabled:opacity-50"
+                className="flex items-center gap-[6px] px-[16px] py-[10px] bg-[#1e3a8a] hover:bg-[#172554] text-white text-[14px] font-medium rounded-[10px] transition-colors disabled:opacity-50"
               >
                 {isSaving && <Loader2 className="h-[14px] w-[14px] animate-spin" />}
                 {editingId ? 'Update' : 'Create'}
@@ -352,7 +352,7 @@ export function WorkflowsPanel() {
             </p>
             <button
               onClick={handleAdd}
-              className="flex items-center gap-[6px] px-[16px] py-[10px] bg-[#ec5b16] hover:bg-[#d9520f] text-white text-[14px] font-medium rounded-[10px] transition-colors"
+              className="flex items-center gap-[6px] px-[16px] py-[10px] bg-[#1e3a8a] hover:bg-[#172554] text-white text-[14px] font-medium rounded-[10px] transition-colors"
             >
               <Plus className="h-[14px] w-[14px]" />
               Add Your First Workflow

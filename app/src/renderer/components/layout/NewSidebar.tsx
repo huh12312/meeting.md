@@ -26,7 +26,7 @@ interface NewSidebarProps {
 
 // Home Icon
 function HomeIcon({ active }: { active: boolean }) {
-  const color = active ? '#ec5b16' : '#464646';
+  const color = active ? '#1e3a8a' : '#464646';
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -35,7 +35,7 @@ function HomeIcon({ active }: { active: boolean }) {
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
-        fill={active ? 'rgba(236,91,22,0.15)' : 'none'}
+        fill={active ? 'rgba(30,58,138,0.15)' : 'none'}
       />
       <path
         d="M9 22V12h6v10"
@@ -50,7 +50,7 @@ function HomeIcon({ active }: { active: boolean }) {
 
 // Past Recordings Icon (clock with history arrow)
 function PastRecordingsIcon({ active }: { active: boolean }) {
-  const color = active ? '#ec5b16' : '#464646';
+  const color = active ? '#1e3a8a' : '#464646';
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -75,9 +75,9 @@ function RecordingIndicatorIcon() {
         cx="12"
         cy="12"
         r="9"
-        stroke="#ec5b16"
+        stroke="#1e3a8a"
         strokeWidth="1.5"
-        fill="rgba(236,91,22,0.15)"
+        fill="rgba(30,58,138,0.15)"
       />
       {/* Inner recording dot - pulsing red */}
       <circle
@@ -94,7 +94,7 @@ function RecordingIndicatorIcon() {
 
 // Settings Icon
 function SettingsIcon({ active }: { active: boolean }) {
-  const color = active ? '#ec5b16' : '#464646';
+  const color = active ? '#1e3a8a' : '#464646';
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle
@@ -103,7 +103,7 @@ function SettingsIcon({ active }: { active: boolean }) {
         r="3"
         stroke={color}
         strokeWidth="1.5"
-        fill={active ? 'rgba(236,91,22,0.15)' : 'none'}
+        fill={active ? 'rgba(30,58,138,0.15)' : 'none'}
       />
       <path
         d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"
@@ -182,7 +182,7 @@ export function NewSidebar({ activeTab, onTabChange }: NewSidebarProps) {
             key={id}
             onClick={() => onTabChange(id)}
             className={`p-[4px] rounded-[6px] transition-colors ${
-              activeTab === id ? 'bg-[#ffe9d3]' : 'hover:bg-[#f5f5f5]'
+              activeTab === id ? 'bg-[#dbe6fe]' : 'hover:bg-[#f5f5f5]'
             }`}
             title={label}
           >

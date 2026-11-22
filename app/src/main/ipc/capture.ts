@@ -31,6 +31,8 @@ import {
   RECORDING_LIMIT_STOP_GRACE_MS,
 } from '../../shared/constants/recording';
 import { getRecordingPlatformSupport } from '../lib/capture-platform';
+import { getLiveAssistService } from '../services/live-assist.service';
+import { getMCPInferenceService } from '../services/mcp-inference.service';
 
 const logger = createChildLogger('ipc-capture');
 
@@ -447,6 +449,12 @@ async function stopRecordingInternal(): Promise<{ success: boolean; error?: stri
       await captureClient.shutdown();
       logger.info('CaptureClient shutdown complete');
       captureClient = null;
+
+      // The renderer asks for this too, but its recording screen is usually
+      // unmounted before it gets the chance, which left both services running
+      // with the finished meeting's context into the next one.
+      getLiveAssistService().stop();
+      getMCPInferenceService().stop();
 
       // Manually emit recording:stopped immediately
       sendRecorderEvent({

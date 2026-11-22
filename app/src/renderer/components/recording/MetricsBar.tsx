@@ -26,12 +26,12 @@ export function MetricsBar() {
           <div className="flex-1 h-[7px] bg-[#f0f0f5] rounded-[4px] overflow-hidden relative">
             {/* Me portion (orange) */}
             <div
-              className="absolute top-0 left-0 h-full bg-[#ec5b16] rounded-l-[4px]"
+              className="absolute top-0 left-0 h-full bg-[#1e3a8a] rounded-l-[4px]"
               style={{ width: `${mePercent}%` }}
             />
             {/* Them portion (blue) */}
             <div
-              className="absolute top-0 right-0 h-full bg-[#3b82f6] rounded-r-[4px]"
+              className="absolute top-0 right-0 h-full bg-[#0d9488] rounded-r-[4px]"
               style={{ width: `${themPercent}%` }}
             />
           </div>

@@ -23,10 +23,10 @@ export function StepIndicators({ currentStep, totalSteps = 3 }: { currentStep: n
         let className = 'rounded-[3px] ';
         if (step === currentStep) {
           // Current step - active (wide orange bar)
-          className += 'w-[24px] h-[6px] bg-[#ec5b16]';
+          className += 'w-[24px] h-[6px] bg-[#1e3a8a]';
         } else if (step < currentStep) {
           // Completed step - dimmed orange dot
-          className += 'w-[6px] h-[6px] bg-[#ec5b16]/40';
+          className += 'w-[6px] h-[6px] bg-[#1e3a8a]/40';
         } else {
           // Future step - gray dot
           className += 'w-[6px] h-[6px] bg-[#e0e0e8]';
@@ -82,7 +82,7 @@ export function AuthView() {
         className="absolute top-[-30%] left-1/2 -translate-x-1/2 w-[600px] h-[567px] rounded-[300px] pointer-events-none"
         style={{
           background:
-            'radial-gradient(circle at center, rgba(236,91,22,0.08) 0%, rgba(236,91,22,0) 70%)',
+            'radial-gradient(circle at center, rgba(30,58,138,0.08) 0%, rgba(30,58,138,0) 70%)',
         }}
       />
 
@@ -150,7 +150,7 @@ export function AuthView() {
             <button
               type="submit"
               disabled={!canSubmit}
-              className="w-full bg-[#ff4000] hover:bg-[#e63900] disabled:bg-[#ffb399] disabled:cursor-not-allowed rounded-[12px] px-[24px] py-[12px] text-[14px] font-medium text-white text-center tracking-[0.14px] leading-[21px] transition-colors flex items-center justify-center"
+              className="w-full bg-[#1e40af] hover:bg-[#1e3a8a] disabled:bg-[#a5bdfc] disabled:cursor-not-allowed rounded-[12px] px-[24px] py-[12px] text-[14px] font-medium text-white text-center tracking-[0.14px] leading-[21px] transition-colors flex items-center justify-center"
             >
               {isSubmitting ? (
                 <>

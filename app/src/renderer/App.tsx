@@ -48,17 +48,17 @@ function LogoIcon() {
 function SystemAudioIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M10 3.33334V16.6667" stroke="#EC5B16" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M5.83334 6.66666V13.3333" stroke="#EC5B16" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M14.1667 6.66666V13.3333" stroke="#EC5B16" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M1.66666 8.33334V11.6667" stroke="#EC5B16" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M18.3333 8.33334V11.6667" stroke="#EC5B16" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M10 3.33334V16.6667" stroke="#1e3a8a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M5.83334 6.66666V13.3333" stroke="#1e3a8a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M14.1667 6.66666V13.3333" stroke="#1e3a8a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M1.66666 8.33334V11.6667" stroke="#1e3a8a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M18.3333 8.33334V11.6667" stroke="#1e3a8a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
   );
 }
 
 // Microphone icon
-function MicrophoneIcon({ color = "#EC5B16" }: { color?: string }) {
+function MicrophoneIcon({ color = "#1e3a8a" }: { color?: string }) {
   return (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M10 1.66666C9.11594 1.66666 8.26809 2.01785 7.643 2.643C7.0179 3.26809 6.66671 4.11594 6.66671 5V10C6.66671 10.8841 7.0179 11.7319 7.643 12.357C8.26809 12.9821 9.11594 13.3333 10 13.3333C10.8841 13.3333 11.732 12.9821 12.357 12.357C12.9822 11.7319 13.3334 10.8841 13.3334 10V5C13.3334 4.11594 12.9822 3.26809 12.357 2.643C11.732 2.01785 10.8841 1.66666 10 1.66666Z" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -85,7 +85,7 @@ function PermissionToggle({ enabled, onClick }: { enabled: boolean; onClick?: ()
     <button
       onClick={onClick}
       className={`w-[38px] h-[22px] rounded-[22px] relative transition-colors ${
-        enabled ? 'bg-[#ec5b16]' : 'bg-[#e4e4ec]'
+        enabled ? 'bg-[#1e3a8a]' : 'bg-[#e4e4ec]'
       }`}
     >
       <div
@@ -160,7 +160,7 @@ function PermissionsView({ onContinue }: { onContinue: () => void }) {
         className="absolute top-[-22.76%] left-1/2 -translate-x-1/2 w-[600px] h-[566px] rounded-[300px] pointer-events-none"
         style={{
           background:
-            'radial-gradient(circle at center, rgba(236,91,22,0.08) 0%, rgba(236,91,22,0) 70%)',
+            'radial-gradient(circle at center, rgba(30,58,138,0.08) 0%, rgba(30,58,138,0) 70%)',
         }}
       />
 
@@ -192,14 +192,14 @@ function PermissionsView({ onContinue }: { onContinue: () => void }) {
             <div
               className={`flex gap-[14px] items-center px-[17px] py-[15px] rounded-[16px] border ${
                 status.screen
-                  ? 'bg-[#fff5ec] border-[#ffe9d3]'
+                  ? 'bg-[#eff4ff] border-[#dbe6fe]'
                   : 'bg-white border-[#efefef]'
               }`}
             >
               <div
                 className={`size-[36px] rounded-[10px] flex items-center justify-center border ${
                   status.screen
-                    ? 'bg-[rgba(236,91,22,0.1)] border-[rgba(236,91,22,0.3)]'
+                    ? 'bg-[rgba(30,58,138,0.1)] border-[rgba(30,58,138,0.3)]'
                     : 'bg-white border-[#ededf3]'
                 }`}
               >
@@ -221,18 +221,18 @@ function PermissionsView({ onContinue }: { onContinue: () => void }) {
             <div
               className={`flex gap-[14px] items-center px-[17px] py-[15px] rounded-[16px] border ${
                 status.microphone
-                  ? 'bg-[#fff5ec] border-[#ffe9d3]'
+                  ? 'bg-[#eff4ff] border-[#dbe6fe]'
                   : 'bg-white border-[#efefef]'
               }`}
             >
               <div
                 className={`size-[36px] rounded-[10px] flex items-center justify-center border ${
                   status.microphone
-                    ? 'bg-[rgba(236,91,22,0.1)] border-[rgba(236,91,22,0.3)]'
+                    ? 'bg-[rgba(30,58,138,0.1)] border-[rgba(30,58,138,0.3)]'
                     : 'bg-white border-[#ededf3]'
                 }`}
               >
-                <MicrophoneIcon color={status.microphone ? '#EC5B16' : '#969696'} />
+                <MicrophoneIcon color={status.microphone ? '#1e3a8a' : '#969696'} />
               </div>
               <div className="flex-1 flex flex-col gap-[3px]">
                 <p className="text-[16px] font-medium text-[#141420] leading-[20px]">Microphone</p>
@@ -250,18 +250,18 @@ function PermissionsView({ onContinue }: { onContinue: () => void }) {
             <div
               className={`flex gap-[14px] items-center px-[17px] py-[15px] rounded-[16px] border ${
                 status.screen
-                  ? 'bg-[#fff5ec] border-[#ffe9d3]'
+                  ? 'bg-[#eff4ff] border-[#dbe6fe]'
                   : 'bg-white border-[#efefef]'
               }`}
             >
               <div
                 className={`size-[36px] rounded-[10px] flex items-center justify-center border ${
                   status.screen
-                    ? 'bg-[rgba(236,91,22,0.1)] border-[rgba(236,91,22,0.3)]'
+                    ? 'bg-[rgba(30,58,138,0.1)] border-[rgba(30,58,138,0.3)]'
                     : 'bg-white border-[#ededf3]'
                 }`}
               >
-                <ScreenCaptureIcon color={status.screen ? '#EC5B16' : '#969696'} />
+                <ScreenCaptureIcon color={status.screen ? '#1e3a8a' : '#969696'} />
               </div>
               <div className="flex-1 flex flex-col gap-[3px]">
                 <p className="text-[16px] font-medium text-[#141420] leading-[20px]">Screen capture</p>
@@ -280,18 +280,18 @@ function PermissionsView({ onContinue }: { onContinue: () => void }) {
           <div
             className={`flex gap-[14px] items-center px-[17px] py-[15px] rounded-[16px] border ${
               notificationsEnabled
-                ? 'bg-[#fff5ec] border-[#ffe9d3]'
+                ? 'bg-[#eff4ff] border-[#dbe6fe]'
                 : 'bg-white border-[#efefef]'
             }`}
           >
             <div
               className={`size-[36px] rounded-[10px] flex items-center justify-center border ${
                 notificationsEnabled
-                  ? 'bg-[rgba(236,91,22,0.1)] border-[rgba(236,91,22,0.3)]'
+                  ? 'bg-[rgba(30,58,138,0.1)] border-[rgba(30,58,138,0.3)]'
                   : 'bg-white border-[#ededf3]'
               }`}
             >
-              <NotificationIcon color={notificationsEnabled ? '#EC5B16' : '#969696'} />
+              <NotificationIcon color={notificationsEnabled ? '#1e3a8a' : '#969696'} />
             </div>
             <div className="flex-1 flex flex-col gap-[3px]">
               <p className="text-[16px] font-medium text-[#141420] leading-[20px]">App notifications</p>
@@ -310,7 +310,7 @@ function PermissionsView({ onContinue }: { onContinue: () => void }) {
             <button
               onClick={handleContinue}
               disabled={!allGranted}
-              className="w-full bg-[#ff4000] hover:bg-[#e63900] disabled:bg-[#ffb399] disabled:cursor-not-allowed rounded-[12px] px-[24px] py-[12px] text-[16px] font-semibold text-white text-center leading-[22.5px] transition-colors"
+              className="w-full bg-[#1e40af] hover:bg-[#1e3a8a] disabled:bg-[#a5bdfc] disabled:cursor-not-allowed rounded-[12px] px-[24px] py-[12px] text-[16px] font-semibold text-white text-center leading-[22.5px] transition-colors"
             >
               Continue to setup
             </button>
@@ -404,7 +404,7 @@ function RecordingView({ onBack }: RecordingViewProps) {
                 </button>
                 <button
                   onClick={handleStartNewCall}
-                  className="px-[14px] py-[8px] bg-[#ec5b16] hover:bg-[#d9520f] rounded-[10px] text-[13px] font-medium text-white transition-colors"
+                  className="px-[14px] py-[8px] bg-[#1e3a8a] hover:bg-[#172554] rounded-[10px] text-[13px] font-medium text-white transition-colors"
                 >
                   Start New Call
                 </button>
@@ -425,8 +425,8 @@ function RecordingView({ onBack }: RecordingViewProps) {
       <div className="flex flex-col h-full overflow-hidden bg-[#f7f7f7]">
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center space-y-4">
-            <div className="w-16 h-16 mx-auto rounded-full bg-[#fff5ec] flex items-center justify-center">
-              <Loader2 className="w-8 h-8 text-[#ec5b16] animate-spin" />
+            <div className="w-16 h-16 mx-auto rounded-full bg-[#eff4ff] flex items-center justify-center">
+              <Loader2 className="w-8 h-8 text-[#1e3a8a] animate-spin" />
             </div>
             <div>
               <h2 className="text-lg font-semibold text-black">Generating Call Summary</h2>
@@ -729,11 +729,11 @@ export function App() {
             className="absolute top-[-30%] left-1/2 -translate-x-1/2 w-[600px] h-[567px] rounded-[300px] pointer-events-none"
             style={{
               background:
-                'radial-gradient(circle at center, rgba(236,91,22,0.08) 0%, rgba(236,91,22,0) 70%)',
+                'radial-gradient(circle at center, rgba(30,58,138,0.08) 0%, rgba(30,58,138,0) 70%)',
             }}
           />
           <div className="flex flex-col items-center gap-4">
-            <Loader2 className="w-8 h-8 text-[#ec5b16] animate-spin" />
+            <Loader2 className="w-8 h-8 text-[#1e3a8a] animate-spin" />
             <p className="text-[14px] text-[#464646]">Checking permissions...</p>
           </div>
         </div>

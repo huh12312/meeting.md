@@ -63,15 +63,15 @@ function SpeakerIcon({ enabled }: { enabled: boolean }) {
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M10 3.333L5.833 6.667H2.5v6.666h3.333L10 16.667V3.333z"
-        stroke={enabled ? '#ec5b16' : '#464646'}
+        stroke={enabled ? '#1e3a8a' : '#464646'}
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
-        fill={enabled ? 'rgba(236,91,22,0.2)' : 'none'}
+        fill={enabled ? 'rgba(30,58,138,0.2)' : 'none'}
       />
       <path
         d="M14.167 7.5a4.167 4.167 0 010 5M16.667 5a7.5 7.5 0 010 10"
-        stroke={enabled ? '#ec5b16' : '#464646'}
+        stroke={enabled ? '#1e3a8a' : '#464646'}
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -89,13 +89,13 @@ function MicIcon({ enabled }: { enabled: boolean }) {
         width="5"
         height="10"
         rx="2.5"
-        stroke={enabled ? '#ec5b16' : '#464646'}
+        stroke={enabled ? '#1e3a8a' : '#464646'}
         strokeWidth="1.5"
-        fill={enabled ? 'rgba(236,91,22,0.2)' : 'none'}
+        fill={enabled ? 'rgba(30,58,138,0.2)' : 'none'}
       />
       <path
         d="M15 8.333v1.667a5 5 0 01-10 0V8.333M10 15v2.5M7.5 17.5h5"
-        stroke={enabled ? '#ec5b16' : '#464646'}
+        stroke={enabled ? '#1e3a8a' : '#464646'}
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -113,19 +113,19 @@ function ScreenIcon({ enabled }: { enabled: boolean }) {
         width="15"
         height="10"
         rx="1.5"
-        stroke={enabled ? '#ec5b16' : '#464646'}
+        stroke={enabled ? '#1e3a8a' : '#464646'}
         strokeWidth="1.5"
-        fill={enabled ? 'rgba(236,91,22,0.2)' : 'none'}
+        fill={enabled ? 'rgba(30,58,138,0.2)' : 'none'}
       />
       <path
         d="M6.667 16.667h6.666"
-        stroke={enabled ? '#ec5b16' : '#464646'}
+        stroke={enabled ? '#1e3a8a' : '#464646'}
         strokeWidth="1.5"
         strokeLinecap="round"
       />
       <path
         d="M10 13.333v3.334"
-        stroke={enabled ? '#ec5b16' : '#464646'}
+        stroke={enabled ? '#1e3a8a' : '#464646'}
         strokeWidth="1.5"
         strokeLinecap="round"
       />
@@ -138,15 +138,15 @@ function NotificationIcon({ enabled }: { enabled: boolean }) {
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M10 2.5C7.5 2.5 5.5 4.5 5.5 7v3.5l-1.25 1.25c-.417.417-.125 1.125.458 1.125h10.584c.583 0 .875-.708.458-1.125L14.5 10.5V7c0-2.5-2-4.5-4.5-4.5z"
-        stroke={enabled ? '#ec5b16' : '#464646'}
+        stroke={enabled ? '#1e3a8a' : '#464646'}
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
-        fill={enabled ? 'rgba(236,91,22,0.2)' : 'none'}
+        fill={enabled ? 'rgba(30,58,138,0.2)' : 'none'}
       />
       <path
         d="M8.5 15.833a1.667 1.667 0 003.333 0"
-        stroke={enabled ? '#ec5b16' : '#464646'}
+        stroke={enabled ? '#1e3a8a' : '#464646'}
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -302,7 +302,7 @@ function ConfirmationDialog({
             className={`px-[16px] py-[10px] rounded-[10px] text-[14px] font-medium text-white transition-colors ${
               variant === 'danger'
                 ? 'bg-[#dc2626] hover:bg-[#b91c1c]'
-                : 'bg-[#ec5b16] hover:bg-[#d4510f]'
+                : 'bg-[#1e3a8a] hover:bg-[#d4510f]'
             }`}
           >
             {confirmText}
@@ -332,7 +332,7 @@ function Toggle({
     <button
       onClick={() => onChange(!enabled)}
       className={`${width} ${height} rounded-full relative transition-colors ${
-        enabled ? 'bg-[#ec5b16]' : 'bg-[#e4e4ec]'
+        enabled ? 'bg-[#1e3a8a]' : 'bg-[#e4e4ec]'
       }`}
     >
       <div
@@ -372,7 +372,7 @@ function PermissionItem({
       <div
         className={`w-[36px] h-[36px] rounded-[10px] flex items-center justify-center ${
           enabled
-            ? 'bg-[rgba(236,91,22,0.1)] border border-[rgba(236,91,22,0.13)]'
+            ? 'bg-[rgba(30,58,138,0.1)] border border-[rgba(30,58,138,0.13)]'
             : 'bg-white border border-[#ededf3]'
         }`}
       >
@@ -656,7 +656,7 @@ export function HomeView({ onStartRecording, onNavigateToHistory, onNavigateToSe
             <button
               onClick={onStartRecording}
               disabled={!streams.systemAudio && !streams.microphone}
-              className="flex items-center gap-[4px] bg-[#ff4000] hover:bg-[#e63900] disabled:opacity-50 disabled:cursor-not-allowed px-[20px] py-[12px] rounded-[12px] shadow-[0px_1.272px_15.267px_0px_rgba(0,0,0,0.05)] transition-colors"
+              className="flex items-center gap-[4px] bg-[#1e40af] hover:bg-[#1e3a8a] disabled:opacity-50 disabled:cursor-not-allowed px-[20px] py-[12px] rounded-[12px] shadow-[0px_1.272px_15.267px_0px_rgba(0,0,0,0.05)] transition-colors"
             >
               <RecordingIcon />
               <span className="text-[14px] font-semibold text-white tracking-[-0.28px]">
@@ -772,11 +772,11 @@ export function HomeView({ onStartRecording, onNavigateToHistory, onNavigateToSe
             {calendarStatus === 'connected' && (
               <button
                 onClick={() => setShowDisconnectConfirm(true)}
-                className="flex items-center gap-[4px] text-[14px] font-semibold text-[#ec5b16] hover:opacity-80"
+                className="flex items-center gap-[4px] text-[14px] font-semibold text-[#1e3a8a] hover:opacity-80"
               >
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="8" cy="8" r="6" stroke="#ec5b16" strokeWidth="1.25" />
-                  <path d="M5.5 8h5" stroke="#ec5b16" strokeWidth="1.25" strokeLinecap="round" />
+                  <circle cx="8" cy="8" r="6" stroke="#1e3a8a" strokeWidth="1.25" />
+                  <path d="M5.5 8h5" stroke="#1e3a8a" strokeWidth="1.25" strokeLinecap="round" />
                 </svg>
                 Disconnect Calendar
               </button>
@@ -843,7 +843,7 @@ export function HomeView({ onStartRecording, onNavigateToHistory, onNavigateToSe
             <span className="flex-1 text-[18px] font-medium text-black">MCPs</span>
             <button
               onClick={() => onNavigateToSettings('mcpServers')}
-              className="flex items-center gap-[4px] text-[14px] font-semibold text-[#ec5b16] hover:opacity-80"
+              className="flex items-center gap-[4px] text-[14px] font-semibold text-[#1e3a8a] hover:opacity-80"
             >
               <span>+</span>
               <span>Add</span>
@@ -891,7 +891,7 @@ export function HomeView({ onStartRecording, onNavigateToHistory, onNavigateToSe
             <span className="flex-1 text-[18px] font-medium text-black">Workflows</span>
             <button
               onClick={() => onNavigateToSettings('workflows')}
-              className="flex items-center gap-[4px] text-[14px] font-semibold text-[#ec5b16] hover:opacity-80"
+              className="flex items-center gap-[4px] text-[14px] font-semibold text-[#1e3a8a] hover:opacity-80"
             >
               <span>+</span>
               <span>Add</span>

@@ -111,11 +111,11 @@ export function RecordingHeader() {
           <button
             onClick={isPaused ? resumeRecording : pauseRecording}
             className={`flex items-center gap-[6px] bg-white border rounded-[12px] pl-[16px] pr-[20px] py-[12px] shadow-[0px_1.272px_15.267px_0px_rgba(0,0,0,0.05)] hover:bg-[#f7f7f7] transition-colors ${
-              isPaused ? 'border-[#ec5b16]' : 'border-[#efefef]'
+              isPaused ? 'border-[#1e3a8a]' : 'border-[#efefef]'
             }`}
           >
             {isPaused ? <PlayIcon /> : <PauseIcon />}
-            <span className={`font-semibold text-[14px] tracking-[-0.28px] ${isPaused ? 'text-[#ec5b16]' : 'text-black'}`}>
+            <span className={`font-semibold text-[14px] tracking-[-0.28px] ${isPaused ? 'text-[#1e3a8a]' : 'text-black'}`}>
               {isPaused ? 'Resume Recording' : 'Pause Recording'}
             </span>
           </button>

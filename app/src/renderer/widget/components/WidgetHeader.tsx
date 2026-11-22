@@ -5,14 +5,14 @@ function SparkleIcon() {
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M10 2L11.5 7L16.5 8.5L11.5 10L10 15L8.5 10L3.5 8.5L8.5 7L10 2Z"
-        stroke="#EC5B16"
+        stroke="#1e3a8a"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M15 12L15.75 14.25L18 15L15.75 15.75L15 18L14.25 15.75L12 15L14.25 14.25L15 12Z"
-        stroke="#EC5B16"
+        stroke="#1e3a8a"
         strokeWidth="1.2"
         strokeLinecap="round"
         strokeLinejoin="round"

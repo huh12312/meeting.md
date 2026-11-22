@@ -55,8 +55,9 @@ class LiveAssistService extends EventEmitter {
    */
   start(context?: MeetingContext): void {
     if (this.isRunning) {
-      log.warn('Live assist already running');
-      return;
+      // A new meeting must not inherit the last one's context or suggestions.
+      log.warn('Live assist was still running; restarting it for the new meeting');
+      this.stop();
     }
 
     log.info({ context: context ? { name: context.name, hasDescription: !!context.description } : null }, 'Starting live assist service');
@@ -219,6 +220,9 @@ class LiveAssistService extends EventEmitter {
         log.warn({ error: response.error }, 'Failed to get live assist response');
         return;
       }
+
+      // The meeting may have ended while the model was answering.
+      if (!this.isRunning) return;
 
       const { say_this, ask_this } = response.data;
       log.debug({ say_this, ask_this }, 'Insights generated for this chunk');

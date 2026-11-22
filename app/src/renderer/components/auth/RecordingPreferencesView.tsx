@@ -38,8 +38,8 @@ function NotifyIcon() {
 function RecordIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="10" cy="10" r="7.5" stroke="#ec5b16" strokeWidth="1.5" />
-      <circle cx="10" cy="10" r="3" fill="#ec5b16" />
+      <circle cx="10" cy="10" r="7.5" stroke="#1e3a8a" strokeWidth="1.5" />
+      <circle cx="10" cy="10" r="3" fill="#1e3a8a" />
     </svg>
   );
 }
@@ -101,7 +101,7 @@ export function RecordingPreferencesView({ onComplete }: RecordingPreferencesVie
         className="absolute top-[-30%] left-1/2 -translate-x-1/2 w-[600px] h-[567px] rounded-[300px] pointer-events-none"
         style={{
           background:
-            'radial-gradient(circle at center, rgba(236,91,22,0.08) 0%, rgba(236,91,22,0) 70%)',
+            'radial-gradient(circle at center, rgba(30,58,138,0.08) 0%, rgba(30,58,138,0) 70%)',
         }}
       />
 
@@ -137,7 +137,7 @@ export function RecordingPreferencesView({ onComplete }: RecordingPreferencesVie
                 onClick={() => setNotifyMinutes(option.value)}
                 className={`flex-1 py-[11px] rounded-[8px] text-[13px] font-medium leading-[19.5px] transition-colors ${
                   notifyMinutes === option.value
-                    ? 'bg-[rgba(236,91,22,0.05)] border border-[#ec5b16] text-[#ec5b16]'
+                    ? 'bg-[rgba(30,58,138,0.05)] border border-[#1e3a8a] text-[#1e3a8a]'
                     : 'border border-[rgba(150,150,150,0.3)] text-[#464646] hover:bg-gray-50'
                 }`}
               >
@@ -162,7 +162,7 @@ export function RecordingPreferencesView({ onComplete }: RecordingPreferencesVie
                 onClick={() => setRecordingBehavior(option.value)}
                 className={`w-full flex items-center gap-[12px] px-[17px] py-[15px] rounded-[10px] text-left transition-colors ${
                   recordingBehavior === option.value
-                    ? 'bg-[rgba(236,91,22,0.05)] border border-[#ec5b16]'
+                    ? 'bg-[rgba(30,58,138,0.05)] border border-[#1e3a8a]'
                     : 'border border-[#e0e0e8] hover:bg-gray-50'
                 }`}
               >
@@ -178,12 +178,12 @@ export function RecordingPreferencesView({ onComplete }: RecordingPreferencesVie
                 <div
                   className={`w-[18px] h-[18px] rounded-[9px] border-2 flex items-center justify-center ${
                     recordingBehavior === option.value
-                      ? 'border-[#ec5b16]'
+                      ? 'border-[#1e3a8a]'
                       : 'border-[#e0e0e8]'
                   }`}
                 >
                   {recordingBehavior === option.value && (
-                    <div className="w-[8px] h-[8px] rounded-[4px] bg-[#ec5b16]" />
+                    <div className="w-[8px] h-[8px] rounded-[4px] bg-[#1e3a8a]" />
                   )}
                 </div>
               </button>
@@ -195,7 +195,7 @@ export function RecordingPreferencesView({ onComplete }: RecordingPreferencesVie
         <button
           onClick={handleContinue}
           disabled={isSaving}
-          className="w-full bg-[#ff4000] hover:bg-[#e63900] disabled:opacity-60 disabled:cursor-not-allowed rounded-[12px] px-[24px] py-[12px] flex items-center justify-center transition-colors"
+          className="w-full bg-[#1e40af] hover:bg-[#1e3a8a] disabled:opacity-60 disabled:cursor-not-allowed rounded-[12px] px-[24px] py-[12px] flex items-center justify-center transition-colors"
         >
           {isSaving ? (
             <Loader2 className="w-[20px] h-[20px] text-white animate-spin" />

@@ -13,7 +13,7 @@ import { useConfigStore } from '../../stores/config.store';
 // Calendar icon component
 function CalendarIcon() {
   return (
-    <div className="w-[72px] h-[72px] rounded-[20px] bg-[rgba(255,64,0,0.1)] border border-[rgba(236,91,22,0.13)] flex items-center justify-center">
+    <div className="w-[72px] h-[72px] rounded-[20px] bg-[rgba(30,64,175,0.1)] border border-[rgba(30,58,138,0.13)] flex items-center justify-center">
       <svg
         width="36"
         height="36"
@@ -21,15 +21,15 @@ function CalendarIcon() {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <rect x="4" y="8" width="28" height="24" rx="4" stroke="#EC5B16" strokeWidth="2" />
-        <path d="M4 14H32" stroke="#EC5B16" strokeWidth="2" />
-        <path d="M12 4V10" stroke="#EC5B16" strokeWidth="2" strokeLinecap="round" />
-        <path d="M24 4V10" stroke="#EC5B16" strokeWidth="2" strokeLinecap="round" />
-        <rect x="10" y="18" width="4" height="4" rx="1" fill="#EC5B16" />
-        <rect x="16" y="18" width="4" height="4" rx="1" fill="#EC5B16" />
-        <rect x="22" y="18" width="4" height="4" rx="1" fill="#EC5B16" />
-        <rect x="10" y="24" width="4" height="4" rx="1" fill="#EC5B16" />
-        <rect x="16" y="24" width="4" height="4" rx="1" fill="#EC5B16" />
+        <rect x="4" y="8" width="28" height="24" rx="4" stroke="#1e3a8a" strokeWidth="2" />
+        <path d="M4 14H32" stroke="#1e3a8a" strokeWidth="2" />
+        <path d="M12 4V10" stroke="#1e3a8a" strokeWidth="2" strokeLinecap="round" />
+        <path d="M24 4V10" stroke="#1e3a8a" strokeWidth="2" strokeLinecap="round" />
+        <rect x="10" y="18" width="4" height="4" rx="1" fill="#1e3a8a" />
+        <rect x="16" y="18" width="4" height="4" rx="1" fill="#1e3a8a" />
+        <rect x="22" y="18" width="4" height="4" rx="1" fill="#1e3a8a" />
+        <rect x="10" y="24" width="4" height="4" rx="1" fill="#1e3a8a" />
+        <rect x="16" y="24" width="4" height="4" rx="1" fill="#1e3a8a" />
       </svg>
     </div>
   );
@@ -132,7 +132,7 @@ export function CalendarSetupView({ onConnected, onSkip }: CalendarSetupViewProp
         className="absolute top-[-30%] left-1/2 -translate-x-1/2 w-[600px] h-[567px] rounded-[300px] pointer-events-none"
         style={{
           background:
-            'radial-gradient(circle at center, rgba(236,91,22,0.08) 0%, rgba(236,91,22,0) 70%)',
+            'radial-gradient(circle at center, rgba(30,58,138,0.08) 0%, rgba(30,58,138,0) 70%)',
         }}
       />
 

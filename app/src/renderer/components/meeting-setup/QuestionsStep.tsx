@@ -136,9 +136,9 @@ export function QuestionsStep({
             key={idx}
             className={`h-[6px] rounded-full transition-all duration-200 ${
               idx === currentQuestion
-                ? 'w-[24px] bg-[#ec5b16]'
+                ? 'w-[24px] bg-[#1e3a8a]'
                 : idx < currentQuestion
-                ? 'w-[6px] bg-[#ec5b16]/60'
+                ? 'w-[6px] bg-[#1e3a8a]/60'
                 : 'w-[6px] bg-[#e0e0e8]'
             }`}
           />
@@ -167,14 +167,14 @@ export function QuestionsStep({
               disabled={isDisabled}
               className={`w-full flex items-center gap-[12px] p-[16px] rounded-[12px] border-2 text-left transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${
                 selected
-                  ? 'border-[#ec5b16] bg-[#fff5ec]'
-                  : 'border-[#e0e0e8] bg-white hover:border-[#ec5b16]/50 hover:bg-[#fff5ec]/30'
+                  ? 'border-[#1e3a8a] bg-[#eff4ff]'
+                  : 'border-[#e0e0e8] bg-white hover:border-[#1e3a8a]/50 hover:bg-[#eff4ff]/30'
               }`}
             >
               <div
                 className={`w-[20px] h-[20px] rounded-[4px] flex items-center justify-center flex-shrink-0 transition-all ${
                   selected
-                    ? 'bg-[#ec5b16] border-2 border-[#ec5b16]'
+                    ? 'bg-[#1e3a8a] border-2 border-[#1e3a8a]'
                     : 'border-2 border-[#c0c0c8]'
                 }`}
               >
@@ -192,8 +192,8 @@ export function QuestionsStep({
           disabled={isDisabled}
           className={`w-full flex items-center gap-[12px] p-[16px] rounded-[12px] border-2 border-dashed text-left transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${
             showCustomInput[currentQuestion]
-              ? 'border-[#ec5b16] bg-[#fff5ec]'
-              : 'border-[#e0e0e8] bg-white hover:border-[#ec5b16]/50 hover:bg-[#fff5ec]/30'
+              ? 'border-[#1e3a8a] bg-[#eff4ff]'
+              : 'border-[#e0e0e8] bg-white hover:border-[#1e3a8a]/50 hover:bg-[#eff4ff]/30'
           }`}
         >
           <MessageIcon />
@@ -210,7 +210,7 @@ export function QuestionsStep({
               onChange={(e) => handleCustomInputChange(e.target.value)}
               disabled={isDisabled}
               autoFocus
-              className="w-full px-[16px] py-[14px] bg-white border border-[#e0e0e8] rounded-[12px] text-[14px] text-black placeholder:text-[#969696] focus:outline-none focus:border-[#ec5b16] focus:ring-1 focus:ring-[#ec5b16] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="w-full px-[16px] py-[14px] bg-white border border-[#e0e0e8] rounded-[12px] text-[14px] text-black placeholder:text-[#969696] focus:outline-none focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             />
           </div>
         )}
@@ -233,7 +233,7 @@ export function QuestionsStep({
             type="button"
             onClick={handleNext}
             disabled={!currentHasAnswer || isDisabled}
-            className="flex-1 flex items-center justify-center gap-[6px] px-[20px] py-[14px] bg-[#ff4000] hover:bg-[#e63900] rounded-[12px] text-[14px] font-semibold text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-[0px_1.272px_15.267px_0px_rgba(0,0,0,0.05)]"
+            className="flex-1 flex items-center justify-center gap-[6px] px-[20px] py-[14px] bg-[#1e40af] hover:bg-[#1e3a8a] rounded-[12px] text-[14px] font-semibold text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-[0px_1.272px_15.267px_0px_rgba(0,0,0,0.05)]"
           >
             {isLastQuestion ? (
               isGenerating ? (
@@ -261,7 +261,7 @@ export function QuestionsStep({
           type="button"
           onClick={() => onSkip()}
           disabled={isDisabled}
-          className="w-full flex items-center justify-center gap-[6px] px-[20px] py-[12px] bg-transparent border border-dashed border-[#c0c0c8] rounded-[12px] text-[14px] font-medium text-[#464646] hover:border-[#ec5b16] hover:text-[#ec5b16] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="w-full flex items-center justify-center gap-[6px] px-[20px] py-[12px] bg-transparent border border-dashed border-[#c0c0c8] rounded-[12px] text-[14px] font-medium text-[#464646] hover:border-[#1e3a8a] hover:text-[#1e3a8a] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           {isSkipping ? (
             <>

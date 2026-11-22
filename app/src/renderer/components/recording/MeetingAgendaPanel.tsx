@@ -15,21 +15,21 @@ function ClipboardCheckIcon() {
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M13.333 3.333H15a1.667 1.667 0 011.667 1.667v11.667A1.667 1.667 0 0115 18.333H5a1.667 1.667 0 01-1.667-1.666V5a1.667 1.667 0 011.667-1.667h1.667"
-        stroke="#EC5B16"
+        stroke="#1e3a8a"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M12.5 1.667h-5A.833.833 0 006.667 2.5v1.667c0 .46.373.833.833.833h5c.46 0 .833-.373.833-.833V2.5a.833.833 0 00-.833-.833z"
-        stroke="#EC5B16"
+        stroke="#1e3a8a"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M7.5 10l1.667 1.667L12.5 8.333"
-        stroke="#EC5B16"
+        stroke="#1e3a8a"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"

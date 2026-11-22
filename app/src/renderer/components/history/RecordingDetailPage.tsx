@@ -62,7 +62,7 @@ export function RecordingDetailPage({ recordingId, onBack }: RecordingDetailPage
   if (isLoading) {
     return (
       <div className="bg-[#f7f7f7] h-full flex items-center justify-center">
-        <div className="animate-spin h-8 w-8 border-2 border-[#ec5b16] border-t-transparent rounded-full" />
+        <div className="animate-spin h-8 w-8 border-2 border-[#1e3a8a] border-t-transparent rounded-full" />
       </div>
     );
   }
@@ -73,7 +73,7 @@ export function RecordingDetailPage({ recordingId, onBack }: RecordingDetailPage
         <p className="text-[#464646]">Recording not found</p>
         <button
           onClick={onBack}
-          className="text-[#ec5b16] hover:underline"
+          className="text-[#1e3a8a] hover:underline"
         >
           Go back
         </button>
@@ -102,7 +102,7 @@ export function RecordingDetailPage({ recordingId, onBack }: RecordingDetailPage
         <div className="flex-1 flex flex-col gap-[30px] min-w-0 overflow-y-auto pr-[10px]">
           {/* Section Header */}
           <div className="flex items-center gap-[4px]">
-            <Sparkles className="h-5 w-5 text-[#ec5b16]" />
+            <Sparkles className="h-5 w-5 text-[#1e3a8a]" />
             <h2 className="text-[18px] font-semibold text-black tracking-[0.09px]">
               Meeting Insights
             </h2>
@@ -235,7 +235,7 @@ function Header({ title, recordingId, createdAt, duration, playerUrl, onBack }: 
             className={cn(
               "flex items-center gap-[6px] border rounded-[12px] px-[16px] py-[12px] shadow-[0px_1.27px_15.27px_0px_rgba(0,0,0,0.05)] transition-colors",
               exportOpen
-                ? "bg-[#fff5ec] border-[#ffcfa5]"
+                ? "bg-[#eff4ff] border-[#c7d7fe]"
                 : "bg-white border-[#efefef] hover:bg-[#efefef] hover:border-[#969696]"
             )}
           >
@@ -275,7 +275,7 @@ function Header({ title, recordingId, createdAt, duration, playerUrl, onBack }: 
             "flex items-center gap-[4px] rounded-[12px] px-[14px] py-[12px] shadow-[0px_1.27px_15.27px_0px_rgba(0,0,0,0.05)] transition-colors",
             copyState === 'copied' ? "bg-[#007657]" :
             copyState === 'copying' ? "bg-[#ff7e32]" :
-            "bg-[#ff4000] hover:bg-[#cc2b02]",
+            "bg-[#1e40af] hover:bg-[#cc2b02]",
             !playerUrl && "opacity-50 cursor-not-allowed"
           )}
         >
@@ -313,16 +313,16 @@ function SummaryCard({ summary }: SummaryCardProps) {
   };
 
   return (
-    <div className="bg-[#fff5ec] border border-[#ffe9d3] rounded-[16px] p-[20px] flex flex-col gap-[16px]">
+    <div className="bg-[#eff4ff] border border-[#dbe6fe] rounded-[16px] p-[20px] flex flex-col gap-[16px]">
       {/* Header */}
       <div className="flex items-center gap-[8px]">
-        <FileText className="h-5 w-5 text-[#ec5b16]" />
+        <FileText className="h-5 w-5 text-[#1e3a8a]" />
         <h3 className="flex-1 text-[16px] font-medium text-black tracking-[0.08px]">
           Meeting Summary
         </h3>
         <button
           onClick={handleCopy}
-          className="flex items-center gap-[4px] px-[10px] py-[6px] rounded-[8px] text-[12px] font-medium text-[#ec5b16] hover:bg-[#ffe9d3] transition-colors"
+          className="flex items-center gap-[4px] px-[10px] py-[6px] rounded-[8px] text-[12px] font-medium text-[#1e3a8a] hover:bg-[#dbe6fe] transition-colors"
         >
           {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
           {copied ? 'Copied!' : 'Copy'}
@@ -359,18 +359,18 @@ function KeyPointsCard({ keyPoints, expanded, onToggle }: KeyPointsCardProps) {
 
   return (
     <div className={cn(
-      "bg-[#fff5ec] border border-[#ffe9d3] rounded-[16px] p-[20px] flex flex-col gap-[16px] relative overflow-hidden",
+      "bg-[#eff4ff] border border-[#dbe6fe] rounded-[16px] p-[20px] flex flex-col gap-[16px] relative overflow-hidden",
       !expanded && "max-h-[200px]"
     )}>
       {/* Header */}
       <div className="flex items-center gap-[8px]">
-        <List className="h-5 w-5 text-[#ec5b16]" />
+        <List className="h-5 w-5 text-[#1e3a8a]" />
         <h3 className="flex-1 text-[16px] font-medium text-black tracking-[0.08px]">
           Key Points
         </h3>
         <button
           onClick={handleCopy}
-          className="flex items-center gap-[4px] px-[10px] py-[6px] rounded-[8px] text-[12px] font-medium text-[#ec5b16] hover:bg-[#ffe9d3] transition-colors z-20"
+          className="flex items-center gap-[4px] px-[10px] py-[6px] rounded-[8px] text-[12px] font-medium text-[#1e3a8a] hover:bg-[#dbe6fe] transition-colors z-20"
         >
           {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
           {copied ? 'Copied!' : 'Copy'}
@@ -398,10 +398,10 @@ function KeyPointsCard({ keyPoints, expanded, onToggle }: KeyPointsCardProps) {
       {/* Gradient Overlay & See More Button */}
       {!expanded && (
         <>
-          <div className="absolute bottom-0 left-0 right-0 h-[52px] bg-gradient-to-t from-[#fff5ec] to-transparent pointer-events-none" />
+          <div className="absolute bottom-0 left-0 right-0 h-[52px] bg-gradient-to-t from-[#eff4ff] to-transparent pointer-events-none" />
           <button
             onClick={onToggle}
-            className="absolute bottom-[6px] left-1/2 -translate-x-1/2 flex items-center gap-px bg-white border border-[#ffcfa5] rounded-full px-[12px] py-[8px] hover:bg-gray-50 transition-colors"
+            className="absolute bottom-[6px] left-1/2 -translate-x-1/2 flex items-center gap-px bg-white border border-[#c7d7fe] rounded-full px-[12px] py-[8px] hover:bg-gray-50 transition-colors"
           >
             <span className="text-[13px] font-medium text-[#1f2937] tracking-[0.065px] px-[4px]">
               See more
@@ -452,7 +452,7 @@ function ActionItemsCard({ recordingId, checklist, completedIndices }: ActionIte
     <div className="bg-[#f7f7f7] border border-[#efefef] rounded-[16px] p-[20px] flex flex-col gap-[16px]">
       {/* Header */}
       <div className="flex items-center gap-[8px]">
-        <CheckSquare className="h-5 w-5 text-[#ec5b16]" />
+        <CheckSquare className="h-5 w-5 text-[#1e3a8a]" />
         <h3 className="text-[16px] font-medium text-black tracking-[0.08px]">
           Action Items
         </h3>
@@ -476,7 +476,7 @@ function ActionItemsCard({ recordingId, checklist, completedIndices }: ActionIte
                 {/* Checkbox */}
                 <div className={cn(
                   "w-4 h-4 shrink-0 rounded border flex items-center justify-center mt-[2px]",
-                  isChecked ? "bg-[#ec5b16] border-[#ec5b16]" : "border-[#ec5b16]"
+                  isChecked ? "bg-[#1e3a8a] border-[#1e3a8a]" : "border-[#1e3a8a]"
                 )}>
                   {isChecked && <Check className="h-3 w-3 text-white" />}
                 </div>
@@ -515,7 +515,7 @@ function VideoPlayerSection({ playerUrl, isReady }: VideoPlayerSectionProps) {
           />
         ) : (
           <div className="w-full h-full flex flex-col items-center justify-center gap-3 text-[#969696]">
-            <Loader2 className="h-8 w-8 animate-spin text-[#ec5b16]" />
+            <Loader2 className="h-8 w-8 animate-spin text-[#1e3a8a]" />
             <p className="text-[14px]">Loading the video...</p>
           </div>
         )}

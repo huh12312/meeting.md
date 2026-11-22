@@ -55,7 +55,7 @@ function Toggle({
     <button
       onClick={() => onChange(!enabled)}
       className={`w-[38px] h-[22px] rounded-full relative transition-colors ${
-        enabled ? 'bg-[#ec5b16]' : 'bg-[#e4e4ec]'
+        enabled ? 'bg-[#1e3a8a]' : 'bg-[#e4e4ec]'
       }`}
     >
       <div
@@ -87,7 +87,7 @@ function CustomSelect({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between px-[12px] py-[10px] text-[14px] bg-white border border-[#ededf3] rounded-[10px] outline-none focus:border-[#ec5b16] focus:ring-1 focus:ring-[#ec5b16]/20 transition-colors text-left"
+        className="w-full flex items-center justify-between px-[12px] py-[10px] text-[14px] bg-white border border-[#ededf3] rounded-[10px] outline-none focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a]/20 transition-colors text-left"
       >
         <span className={selectedOption ? 'text-[#141420]' : 'text-[#969696]'}>
           {selectedOption?.label || placeholder}
@@ -105,7 +105,7 @@ function CustomSelect({
                 setIsOpen(false);
               }}
               className={`w-full px-[12px] py-[10px] text-left hover:bg-[#f7f7f7] transition-colors ${
-                option.value === value ? 'bg-[#fff5ec]' : ''
+                option.value === value ? 'bg-[#eff4ff]' : ''
               }`}
             >
               <div className="flex items-center gap-[8px]">
@@ -159,9 +159,9 @@ function ServerCard({
         );
       case 'connecting':
         return (
-          <div className="flex items-center gap-[4px] px-[8px] py-[3px] bg-[#fff5ec] border border-[#fed7aa] rounded-[6px] animate-pulse">
-            <Loader2 className="h-[12px] w-[12px] text-[#ec5b16] animate-spin" />
-            <span className="text-[11px] font-medium text-[#ec5b16]">Connecting</span>
+          <div className="flex items-center gap-[4px] px-[8px] py-[3px] bg-[#eff4ff] border border-[#bfd3fe] rounded-[6px] animate-pulse">
+            <Loader2 className="h-[12px] w-[12px] text-[#1e3a8a] animate-spin" />
+            <span className="text-[11px] font-medium text-[#1e3a8a]">Connecting</span>
           </div>
         );
       case 'error':
@@ -216,8 +216,8 @@ function ServerCard({
               <span className="text-[11px] font-medium text-[#464646]">{server.transport}</span>
             </div>
             {server.autoConnect && (
-              <div className="px-[8px] py-[2px] bg-[#fff5ec] border border-[#fed7aa] rounded-[6px]">
-                <span className="text-[11px] font-medium text-[#ec5b16]">Auto-connect</span>
+              <div className="px-[8px] py-[2px] bg-[#eff4ff] border border-[#bfd3fe] rounded-[6px]">
+                <span className="text-[11px] font-medium text-[#1e3a8a]">Auto-connect</span>
               </div>
             )}
           </div>
@@ -235,7 +235,7 @@ function ServerCard({
               <button
                 onClick={() => onConnect(server.id)}
                 disabled={isConnecting || !server.isEnabled}
-                className="px-[12px] py-[6px] bg-[#ec5b16] hover:bg-[#d9520f] rounded-[8px] text-[12px] font-medium text-white transition-colors disabled:opacity-50"
+                className="px-[12px] py-[6px] bg-[#1e3a8a] hover:bg-[#172554] rounded-[8px] text-[12px] font-medium text-white transition-colors disabled:opacity-50"
               >
                 {isConnecting ? (
                   <Loader2 className="h-[14px] w-[14px] animate-spin" />
@@ -433,7 +433,7 @@ function AddServerDialog({
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
               placeholder="e.g., HubSpot CRM"
-              className="w-full px-[12px] py-[10px] text-[14px] text-[#141420] bg-white border border-[#ededf3] rounded-[10px] outline-none focus:border-[#ec5b16] focus:ring-1 focus:ring-[#ec5b16]/20 transition-colors placeholder:text-[#969696]"
+              className="w-full px-[12px] py-[10px] text-[14px] text-[#141420] bg-white border border-[#ededf3] rounded-[10px] outline-none focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a]/20 transition-colors placeholder:text-[#969696]"
             />
           </div>
 
@@ -457,7 +457,7 @@ function AddServerDialog({
                   value={form.command}
                   onChange={(e) => setForm({ ...form, command: e.target.value })}
                   placeholder="e.g., npx"
-                  className="w-full px-[12px] py-[10px] text-[14px] text-[#141420] bg-white border border-[#ededf3] rounded-[10px] outline-none focus:border-[#ec5b16] focus:ring-1 focus:ring-[#ec5b16]/20 transition-colors placeholder:text-[#969696]"
+                  className="w-full px-[12px] py-[10px] text-[14px] text-[#141420] bg-white border border-[#ededf3] rounded-[10px] outline-none focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a]/20 transition-colors placeholder:text-[#969696]"
                 />
               </div>
               <div className="space-y-[6px]">
@@ -467,7 +467,7 @@ function AddServerDialog({
                   value={form.args}
                   onChange={(e) => setForm({ ...form, args: e.target.value })}
                   placeholder="e.g., -y @modelcontextprotocol/server-memory"
-                  className="w-full px-[12px] py-[10px] text-[14px] text-[#141420] bg-white border border-[#ededf3] rounded-[10px] outline-none focus:border-[#ec5b16] focus:ring-1 focus:ring-[#ec5b16]/20 transition-colors placeholder:text-[#969696]"
+                  className="w-full px-[12px] py-[10px] text-[14px] text-[#141420] bg-white border border-[#ededf3] rounded-[10px] outline-none focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a]/20 transition-colors placeholder:text-[#969696]"
                 />
               </div>
 
@@ -509,7 +509,7 @@ function AddServerDialog({
                             newEnv[e.target.value] = value;
                             setForm({ ...form, env: newEnv });
                           }}
-                          className="flex-1 px-[10px] py-[8px] text-[13px] text-[#141420] bg-white border border-[#ededf3] rounded-[8px] outline-none focus:border-[#ec5b16] font-mono placeholder:text-[#969696]"
+                          className="flex-1 px-[10px] py-[8px] text-[13px] text-[#141420] bg-white border border-[#ededf3] rounded-[8px] outline-none focus:border-[#1e3a8a] font-mono placeholder:text-[#969696]"
                         />
                         <input
                           type="password"
@@ -521,7 +521,7 @@ function AddServerDialog({
                               env: { ...form.env, [key]: e.target.value },
                             });
                           }}
-                          className="flex-1 px-[10px] py-[8px] text-[13px] text-[#141420] bg-white border border-[#ededf3] rounded-[8px] outline-none focus:border-[#ec5b16] placeholder:text-[#969696]"
+                          className="flex-1 px-[10px] py-[8px] text-[13px] text-[#141420] bg-white border border-[#ededf3] rounded-[8px] outline-none focus:border-[#1e3a8a] placeholder:text-[#969696]"
                         />
                         <button
                           type="button"
@@ -557,7 +557,7 @@ function AddServerDialog({
                   value={form.url}
                   onChange={(e) => setForm({ ...form, url: e.target.value })}
                   placeholder="https://mcp-server.example.com"
-                  className="w-full px-[12px] py-[10px] text-[14px] text-[#141420] bg-white border border-[#ededf3] rounded-[10px] outline-none focus:border-[#ec5b16] focus:ring-1 focus:ring-[#ec5b16]/20 transition-colors placeholder:text-[#969696]"
+                  className="w-full px-[12px] py-[10px] text-[14px] text-[#141420] bg-white border border-[#ededf3] rounded-[10px] outline-none focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a]/20 transition-colors placeholder:text-[#969696]"
                 />
               </div>
 
@@ -599,7 +599,7 @@ function AddServerDialog({
                             newHeaders[e.target.value] = value;
                             setForm({ ...form, headers: newHeaders });
                           }}
-                          className="flex-1 px-[10px] py-[8px] text-[13px] text-[#141420] bg-white border border-[#ededf3] rounded-[8px] outline-none focus:border-[#ec5b16] font-mono placeholder:text-[#969696]"
+                          className="flex-1 px-[10px] py-[8px] text-[13px] text-[#141420] bg-white border border-[#ededf3] rounded-[8px] outline-none focus:border-[#1e3a8a] font-mono placeholder:text-[#969696]"
                         />
                         <input
                           type="password"
@@ -611,7 +611,7 @@ function AddServerDialog({
                               headers: { ...form.headers, [key]: e.target.value },
                             });
                           }}
-                          className="flex-1 px-[10px] py-[8px] text-[13px] text-[#141420] bg-white border border-[#ededf3] rounded-[8px] outline-none focus:border-[#ec5b16] placeholder:text-[#969696]"
+                          className="flex-1 px-[10px] py-[8px] text-[13px] text-[#141420] bg-white border border-[#ededf3] rounded-[8px] outline-none focus:border-[#1e3a8a] placeholder:text-[#969696]"
                         />
                         <button
                           type="button"
@@ -639,10 +639,10 @@ function AddServerDialog({
 
           {/* Environment Variables (for templates that require them) */}
           {selectedTemplateData?.requiredEnvVars && selectedTemplateData.requiredEnvVars.length > 0 && (
-            <div className="p-[16px] bg-[#fff5ec] rounded-[12px] border border-[#fed7aa]">
+            <div className="p-[16px] bg-[#eff4ff] rounded-[12px] border border-[#bfd3fe]">
               <div className="mb-[12px]">
-                <p className="text-[13px] font-medium text-[#ec5b16]">Required Credentials</p>
-                <p className="text-[12px] text-[#d9520f] mt-[2px]">
+                <p className="text-[13px] font-medium text-[#1e3a8a]">Required Credentials</p>
+                <p className="text-[12px] text-[#172554] mt-[2px]">
                   These credentials are required for this template to work
                 </p>
               </div>
@@ -662,7 +662,7 @@ function AddServerDialog({
                         })
                       }
                       placeholder={envVar.placeholder}
-                      className="w-full px-[12px] py-[10px] text-[14px] text-[#141420] bg-white border border-[#ededf3] rounded-[10px] outline-none focus:border-[#ec5b16] focus:ring-1 focus:ring-[#ec5b16]/20 transition-colors placeholder:text-[#969696]"
+                      className="w-full px-[12px] py-[10px] text-[14px] text-[#141420] bg-white border border-[#ededf3] rounded-[10px] outline-none focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a]/20 transition-colors placeholder:text-[#969696]"
                     />
                     {envVar.description && (
                       <p className="text-[12px] text-[#969696]">{envVar.description}</p>
@@ -726,7 +726,7 @@ function AddServerDialog({
           <button
             onClick={handleSubmit}
             disabled={isSubmitting || !form.name}
-            className="flex items-center gap-[6px] px-[16px] py-[10px] bg-[#ec5b16] hover:bg-[#d9520f] text-white text-[14px] font-medium rounded-[10px] transition-colors disabled:opacity-50"
+            className="flex items-center gap-[6px] px-[16px] py-[10px] bg-[#1e3a8a] hover:bg-[#172554] text-white text-[14px] font-medium rounded-[10px] transition-colors disabled:opacity-50"
           >
             {isSubmitting ? (
               <Loader2 className="h-[14px] w-[14px] animate-spin" />
@@ -830,8 +830,8 @@ export function MCPServersPanel() {
             </span>
           </div>
           {toolCount > 0 && (
-            <div className="px-[10px] py-[4px] bg-[#fff5ec] border border-[#fed7aa] rounded-[8px]">
-              <span className="text-[12px] font-medium text-[#ec5b16]">{toolCount} tools</span>
+            <div className="px-[10px] py-[4px] bg-[#eff4ff] border border-[#bfd3fe] rounded-[8px]">
+              <span className="text-[12px] font-medium text-[#1e3a8a]">{toolCount} tools</span>
             </div>
           )}
           <button
@@ -842,7 +842,7 @@ export function MCPServersPanel() {
           </button>
           <button
             onClick={() => setDialogOpen(true)}
-            className="flex items-center gap-[6px] px-[14px] py-[8px] bg-[#ec5b16] hover:bg-[#d9520f] text-white text-[13px] font-medium rounded-[8px] transition-colors"
+            className="flex items-center gap-[6px] px-[14px] py-[8px] bg-[#1e3a8a] hover:bg-[#172554] text-white text-[13px] font-medium rounded-[8px] transition-colors"
           >
             <Plus className="h-[14px] w-[14px]" />
             Add Server
@@ -864,7 +864,7 @@ export function MCPServersPanel() {
             </p>
             <button
               onClick={() => setDialogOpen(true)}
-              className="flex items-center gap-[6px] px-[16px] py-[10px] bg-[#ec5b16] hover:bg-[#d9520f] text-white text-[14px] font-medium rounded-[10px] transition-colors"
+              className="flex items-center gap-[6px] px-[16px] py-[10px] bg-[#1e3a8a] hover:bg-[#172554] text-white text-[14px] font-medium rounded-[10px] transition-colors"
             >
               <Plus className="h-[14px] w-[14px]" />
               Add Your First Server

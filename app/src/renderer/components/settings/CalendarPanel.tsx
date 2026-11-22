@@ -33,9 +33,9 @@ function StatusBadge({ status }: { status: CalendarStatus }) {
       );
     case 'connecting':
       return (
-        <div className="flex items-center gap-[6px] px-[10px] py-[4px] bg-[#fff5ec] border border-[#fed7aa] rounded-[8px] animate-pulse">
-          <Loader2 className="h-[14px] w-[14px] text-[#ec5b16] animate-spin" />
-          <span className="text-[13px] font-medium text-[#ec5b16]">Connecting...</span>
+        <div className="flex items-center gap-[6px] px-[10px] py-[4px] bg-[#eff4ff] border border-[#bfd3fe] rounded-[8px] animate-pulse">
+          <Loader2 className="h-[14px] w-[14px] text-[#1e3a8a] animate-spin" />
+          <span className="text-[13px] font-medium text-[#1e3a8a]">Connecting...</span>
         </div>
       );
     case 'error':
@@ -58,8 +58,8 @@ function StatusBadge({ status }: { status: CalendarStatus }) {
 function RecordIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="10" cy="10" r="7.5" stroke="#ec5b16" strokeWidth="1.5" />
-      <circle cx="10" cy="10" r="3" fill="#ec5b16" />
+      <circle cx="10" cy="10" r="7.5" stroke="#1e3a8a" strokeWidth="1.5" />
+      <circle cx="10" cy="10" r="3" fill="#1e3a8a" />
     </svg>
   );
 }
@@ -274,7 +274,7 @@ export function CalendarPanel() {
               </p>
               <button
                 onClick={handleConnect}
-                className="flex items-center gap-[8px] px-[16px] py-[10px] bg-[#ec5b16] hover:bg-[#d9520f] text-white text-[14px] font-medium rounded-[10px] transition-colors"
+                className="flex items-center gap-[8px] px-[16px] py-[10px] bg-[#1e3a8a] hover:bg-[#172554] text-white text-[14px] font-medium rounded-[10px] transition-colors"
               >
                 <Calendar className="h-[16px] w-[16px]" />
                 Connect Google Calendar
@@ -284,7 +284,7 @@ export function CalendarPanel() {
 
           {status === 'connecting' && (
             <div className="flex flex-col items-center py-[32px]">
-              <Loader2 className="h-[48px] w-[48px] text-[#ec5b16] mb-[16px] animate-spin" />
+              <Loader2 className="h-[48px] w-[48px] text-[#1e3a8a] mb-[16px] animate-spin" />
               <p className="text-[14px] text-[#464646] text-center">
                 Connecting to Google Calendar...
               </p>
@@ -330,7 +330,7 @@ export function CalendarPanel() {
                           <p className="text-[12px] text-[#969696]">
                             {formatEventTime(event)}
                             {event.minutesUntil > 0 && event.minutesUntil <= 60 && (
-                              <span className="ml-[8px] text-[#ec5b16]">
+                              <span className="ml-[8px] text-[#1e3a8a]">
                                 in {event.minutesUntil}m
                               </span>
                             )}
@@ -370,7 +370,7 @@ export function CalendarPanel() {
               </p>
               <button
                 onClick={handleConnect}
-                className="flex items-center gap-[8px] px-[16px] py-[10px] bg-[#ec5b16] hover:bg-[#d9520f] text-white text-[14px] font-medium rounded-[10px] transition-colors"
+                className="flex items-center gap-[8px] px-[16px] py-[10px] bg-[#1e3a8a] hover:bg-[#172554] text-white text-[14px] font-medium rounded-[10px] transition-colors"
               >
                 <RefreshCw className="h-[16px] w-[16px]" />
                 Try Again
@@ -409,7 +409,7 @@ export function CalendarPanel() {
                     disabled={isSavingPrefs}
                     className={`flex-1 py-[11px] rounded-[8px] text-[13px] font-medium leading-[19.5px] transition-colors disabled:opacity-60 ${
                       notifyMinutes === option.value
-                        ? 'bg-[rgba(236,91,22,0.05)] border border-[#ec5b16] text-[#ec5b16]'
+                        ? 'bg-[rgba(30,58,138,0.05)] border border-[#1e3a8a] text-[#1e3a8a]'
                         : 'border border-[rgba(150,150,150,0.3)] text-[#464646] hover:bg-gray-50'
                     }`}
                   >
@@ -435,7 +435,7 @@ export function CalendarPanel() {
                     disabled={isSavingPrefs}
                     className={`w-full flex items-center gap-[12px] px-[17px] py-[15px] rounded-[10px] text-left transition-colors disabled:opacity-60 ${
                       recordingBehavior === option.value
-                        ? 'bg-[rgba(236,91,22,0.05)] border border-[#ec5b16]'
+                        ? 'bg-[rgba(30,58,138,0.05)] border border-[#1e3a8a]'
                         : 'border border-[#e0e0e8] hover:bg-gray-50'
                     }`}
                   >
@@ -451,12 +451,12 @@ export function CalendarPanel() {
                     <div
                       className={`w-[18px] h-[18px] rounded-[9px] border-2 flex items-center justify-center shrink-0 ${
                         recordingBehavior === option.value
-                          ? 'border-[#ec5b16]'
+                          ? 'border-[#1e3a8a]'
                           : 'border-[#e0e0e8]'
                       }`}
                     >
                       {recordingBehavior === option.value && (
-                        <div className="w-[8px] h-[8px] rounded-[4px] bg-[#ec5b16]" />
+                        <div className="w-[8px] h-[8px] rounded-[4px] bg-[#1e3a8a]" />
                       )}
                     </div>
                   </button>

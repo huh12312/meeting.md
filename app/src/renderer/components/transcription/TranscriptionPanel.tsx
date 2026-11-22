@@ -20,11 +20,11 @@ function SparkleIcon() {
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M10 2.5L11.5 7L16.25 8.125L12.5 11.25L13.125 16.25L10 13.75L6.875 16.25L7.5 11.25L3.75 8.125L8.5 7L10 2.5Z"
-        stroke="#EC5B16"
+        stroke="#1e3a8a"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
-        fill="rgba(236, 91, 22, 0.1)"
+        fill="rgba(30,58,138, 0.1)"
       />
     </svg>
   );
@@ -55,12 +55,12 @@ function TranscriptMessage({ item }: TranscriptMessageProps) {
         {/* Timestamp badge */}
         <div
           className={`px-[8px] py-[4px] rounded-[7px] ${
-            isMe ? 'bg-[#ffe9d3]' : 'bg-[rgba(45,140,255,0.2)]'
+            isMe ? 'bg-[#dbe6fe]' : 'bg-[rgba(45,140,255,0.2)]'
           }`}
         >
           <span
             className={`font-semibold text-[13px] leading-[16px] ${
-              isMe ? 'text-[#ec5b16]' : 'text-[#2d8cff]'
+              isMe ? 'text-[#1e3a8a]' : 'text-[#0d9488]'
             }`}
           >
             {formatRelativeTime(item.timestamp)}
@@ -94,11 +94,11 @@ function VisualAnalysisEntry({ item }: VisualAnalysisEntryProps) {
   };
 
   return (
-    <div className="bg-[#eff6ff] border border-[#5095fb] rounded-[10px] p-[12px] flex flex-col gap-[12px]">
+    <div className="bg-[#f0fdfa] border border-[#14b8a6] rounded-[10px] p-[12px] flex flex-col gap-[12px]">
       {/* Header row */}
       <div className="flex items-center gap-[12px]">
         <div className="bg-white px-[8px] py-[4px] rounded-[7px]">
-          <span className="font-semibold text-[13px] text-[#5095fb] leading-[16px]">
+          <span className="font-semibold text-[13px] text-[#14b8a6] leading-[16px]">
             {formatRelativeTime()}
           </span>
         </div>
@@ -126,12 +126,12 @@ function PendingMessage({ text, source }: PendingMessageProps) {
       <div className="bg-[#f9fafb] rounded-[10px] px-[8px] py-[6px] flex items-center gap-[12px]">
         <div
           className={`px-[8px] py-[4px] rounded-[7px] animate-pulse ${
-            isMe ? 'bg-[#ffe9d3]' : 'bg-[rgba(45,140,255,0.2)]'
+            isMe ? 'bg-[#dbe6fe]' : 'bg-[rgba(45,140,255,0.2)]'
           }`}
         >
           <span
             className={`font-semibold text-[13px] leading-[16px] ${
-              isMe ? 'text-[#ec5b16]' : 'text-[#2d8cff]'
+              isMe ? 'text-[#1e3a8a]' : 'text-[#0d9488]'
             }`}
           >
             ...

@@ -85,8 +85,8 @@ class MCPInferenceService extends EventEmitter {
    */
   start(): void {
     if (this.isRunning) {
-      log.warn('MCP inference already running');
-      return;
+      log.warn('MCP inference was still running; restarting it for the new meeting');
+      this.stop();
     }
 
     log.info('Starting MCP inference service');

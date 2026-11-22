@@ -63,7 +63,7 @@ export function TranscriptionPanel() {
             </p>
           </div>
           {isSaving ? (
-            <Loader2 className="w-[16px] h-[16px] text-[#ec5b16] animate-spin" />
+            <Loader2 className="w-[16px] h-[16px] text-[#1e3a8a] animate-spin" />
           ) : savedAt ? (
             <span className="flex items-center gap-[4px] text-[13px] font-medium text-[#059669]">
               <Check className="w-[16px] h-[16px]" />
@@ -83,19 +83,19 @@ export function TranscriptionPanel() {
                 disabled={isSaving}
                 className={`flex items-center justify-between w-full px-[20px] py-[14px] text-left transition-colors disabled:opacity-60 ${
                   index < TRANSCRIPTION_LANGUAGES.length - 1 ? 'border-b border-[#ededf3]' : ''
-                } ${isSelected ? 'bg-[rgba(255,64,0,0.04)]' : 'hover:bg-[#f7f7f7]'}`}
+                } ${isSelected ? 'bg-[rgba(30,64,175,0.04)]' : 'hover:bg-[#f7f7f7]'}`}
               >
                 <span className="flex flex-col">
                   <span
                     className={`text-[14px] font-medium ${
-                      isSelected ? 'text-[#ff4000]' : 'text-[#464646]'
+                      isSelected ? 'text-[#1e40af]' : 'text-[#464646]'
                     }`}
                   >
                     {language.label}
                   </span>
                   <span className="text-[13px] text-[#969696]">{language.nativeLabel}</span>
                 </span>
-                {isSelected && <Check className="w-[18px] h-[18px] text-[#ff4000]" />}
+                {isSelected && <Check className="w-[18px] h-[18px] text-[#1e40af]" />}
               </button>
             );
           })}

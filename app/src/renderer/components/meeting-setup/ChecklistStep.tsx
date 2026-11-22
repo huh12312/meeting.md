@@ -5,7 +5,7 @@ import { Loader2 } from 'lucide-react';
 function ChecklistIcon() {
   return (
     <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="50" height="50" rx="12" fill="#EC5B16" />
+      <rect width="50" height="50" rx="12" fill="#1e3a8a" />
       <path
         d="M17 25l4 4 12-12"
         stroke="white"
@@ -52,8 +52,8 @@ function SkipRecordingIcon() {
 function CheckCircleIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="8" cy="8" r="6" stroke="#ec5b16" strokeWidth="1.25" />
-      <path d="M5.5 8l2 2 3-4" stroke="#ec5b16" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="8" cy="8" r="6" stroke="#1e3a8a" strokeWidth="1.25" />
+      <path d="M5.5 8l2 2 3-4" stroke="#1e3a8a" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -141,7 +141,7 @@ export function ChecklistStep({
           <button
             onClick={onStart}
             disabled={isDisabled}
-            className="flex-1 flex items-center justify-center gap-[6px] px-[20px] py-[16px] bg-[#ff4000] hover:bg-[#e63900] rounded-[12px] text-[14px] font-semibold text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-[0px_1.272px_15.267px_0px_rgba(0,0,0,0.05)]"
+            className="flex-1 flex items-center justify-center gap-[6px] px-[20px] py-[16px] bg-[#1e40af] hover:bg-[#1e3a8a] rounded-[12px] text-[14px] font-semibold text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-[0px_1.272px_15.267px_0px_rgba(0,0,0,0.05)]"
           >
             {isStarting && !isSkipping ? (
               <>
@@ -162,7 +162,7 @@ export function ChecklistStep({
           type="button"
           onClick={() => onSkip()}
           disabled={isDisabled}
-          className="w-full flex items-center justify-center gap-[6px] px-[20px] py-[12px] bg-transparent border border-dashed border-[#c0c0c8] rounded-[12px] text-[14px] font-medium text-[#464646] hover:border-[#ec5b16] hover:text-[#ec5b16] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="w-full flex items-center justify-center gap-[6px] px-[20px] py-[12px] bg-transparent border border-dashed border-[#c0c0c8] rounded-[12px] text-[14px] font-medium text-[#464646] hover:border-[#1e3a8a] hover:text-[#1e3a8a] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           {isSkipping ? (
             <>

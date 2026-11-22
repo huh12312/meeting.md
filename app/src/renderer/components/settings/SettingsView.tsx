@@ -56,7 +56,7 @@ function SettingsTabs({
           onClick={() => onTabChange(tab.id)}
           className={`flex-1 px-[12px] py-[12px] rounded-[12px] text-[14px] font-medium transition-all whitespace-nowrap ${
             activeTab === tab.id
-              ? 'bg-[#ff4000] text-white font-semibold shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]'
+              ? 'bg-[#1e40af] text-white font-semibold shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]'
               : 'text-[#464646] hover:bg-[#efefef]'
           }`}
         >
@@ -136,8 +136,8 @@ function GoogleCalendarIcon() {
 // Calendar icon for empty state
 function CalendarEmptyIcon() {
   return (
-    <div className="w-[50px] h-[50px] bg-[rgba(255,64,0,0.1)] border border-[rgba(236,91,22,0.13)] rounded-[8px] flex items-center justify-center">
-      <Calendar className="w-[25px] h-[25px] text-[#ec5b16]" />
+    <div className="w-[50px] h-[50px] bg-[rgba(30,64,175,0.1)] border border-[rgba(30,58,138,0.13)] rounded-[8px] flex items-center justify-center">
+      <Calendar className="w-[25px] h-[25px] text-[#1e3a8a]" />
     </div>
   );
 }
@@ -303,12 +303,12 @@ function AccountPanel() {
                 autoComplete="off"
                 spellCheck={false}
                 aria-label="New API key"
-                className="w-[200px] px-[12px] py-[6px] bg-[#f7f7f7] border border-[#e9e9e9] rounded-[8px] text-[13px] text-[#141420] placeholder:text-[#969696] outline-none focus:border-[#ec5b16]"
+                className="w-[200px] px-[12px] py-[6px] bg-[#f7f7f7] border border-[#e9e9e9] rounded-[8px] text-[13px] text-[#141420] placeholder:text-[#969696] outline-none focus:border-[#1e3a8a]"
               />
               <button
                 onClick={handleSaveApiKey}
                 disabled={isSaving || !newApiKey.trim()}
-                className="px-[10px] py-[6px] bg-[#ff4000] hover:bg-[#e63900] disabled:opacity-50 rounded-[8px] text-[13px] font-medium text-white transition-colors"
+                className="px-[10px] py-[6px] bg-[#1e40af] hover:bg-[#1e3a8a] disabled:opacity-50 rounded-[8px] text-[13px] font-medium text-white transition-colors"
               >
                 {isSaving ? <Loader2 className="w-[14px] h-[14px] animate-spin" /> : 'Save'}
               </button>
@@ -352,8 +352,8 @@ function AccountPanel() {
                 onClick={() => setIsEditingApiKey(true)}
                 className="flex items-center gap-[4px] px-[10px] py-[6px] bg-[#f0f0f5] border border-[#efefef] rounded-[8px] hover:bg-[#e8e8ed] transition-colors"
               >
-                <Pencil className="w-[16px] h-[16px] text-[#ff4000]" />
-                <span className="text-[13px] font-medium text-[#ff4000]">Change</span>
+                <Pencil className="w-[16px] h-[16px] text-[#1e40af]" />
+                <span className="text-[13px] font-medium text-[#1e40af]">Change</span>
               </button>
             </>
           )}
@@ -372,7 +372,7 @@ function AccountPanel() {
         <CardHeader title="Calendar Connection" />
         <div className="flex flex-col items-center gap-[14px] py-[21px]">
           {isLoadingCalendar ? (
-            <Loader2 className="w-[32px] h-[32px] text-[#ec5b16] animate-spin" />
+            <Loader2 className="w-[32px] h-[32px] text-[#1e3a8a] animate-spin" />
           ) : calendarStatus === 'connected' ? (
             <>
               <div className="flex items-center gap-[8px] p-[12px] bg-[#ecfdf5] rounded-[10px]">

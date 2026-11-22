@@ -27,7 +27,7 @@ function Toggle({
       onClick={() => !disabled && onChange(!enabled)}
       disabled={disabled}
       className={`w-[38px] h-[22px] rounded-full relative transition-colors ${
-        enabled ? 'bg-[#ec5b16]' : 'bg-[#e4e4ec]'
+        enabled ? 'bg-[#1e3a8a]' : 'bg-[#e4e4ec]'
       } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
     >
       <div
@@ -43,8 +43,8 @@ function Toggle({
 function RecordIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="10" cy="10" r="7.5" stroke="#ec5b16" strokeWidth="1.5" />
-      <circle cx="10" cy="10" r="3" fill="#ec5b16" />
+      <circle cx="10" cy="10" r="7.5" stroke="#1e3a8a" strokeWidth="1.5" />
+      <circle cx="10" cy="10" r="3" fill="#1e3a8a" />
     </svg>
   );
 }
@@ -206,7 +206,7 @@ export function NotificationsPanel() {
                   disabled={isSavingPrefs}
                   className={`flex-1 py-[11px] rounded-[8px] text-[13px] font-medium leading-[19.5px] transition-colors disabled:opacity-60 ${
                     notifyMinutes === option.value
-                      ? 'bg-[rgba(236,91,22,0.05)] border border-[#ec5b16] text-[#ec5b16]'
+                      ? 'bg-[rgba(30,58,138,0.05)] border border-[#1e3a8a] text-[#1e3a8a]'
                       : 'border border-[rgba(150,150,150,0.3)] text-[#464646] hover:bg-gray-50'
                   }`}
                 >
@@ -232,7 +232,7 @@ export function NotificationsPanel() {
                   disabled={isSavingPrefs}
                   className={`w-full flex items-center gap-[12px] px-[17px] py-[15px] rounded-[10px] text-left transition-colors disabled:opacity-60 ${
                     recordingBehavior === option.value
-                      ? 'bg-[rgba(236,91,22,0.05)] border border-[#ec5b16]'
+                      ? 'bg-[rgba(30,58,138,0.05)] border border-[#1e3a8a]'
                       : 'border border-[#e0e0e8] hover:bg-gray-50'
                   }`}
                 >
@@ -248,12 +248,12 @@ export function NotificationsPanel() {
                   <div
                     className={`w-[18px] h-[18px] rounded-[9px] border-2 flex items-center justify-center shrink-0 ${
                       recordingBehavior === option.value
-                        ? 'border-[#ec5b16]'
+                        ? 'border-[#1e3a8a]'
                         : 'border-[#e0e0e8]'
                     }`}
                   >
                     {recordingBehavior === option.value && (
-                      <div className="w-[8px] h-[8px] rounded-[4px] bg-[#ec5b16]" />
+                      <div className="w-[8px] h-[8px] rounded-[4px] bg-[#1e3a8a]" />
                     )}
                   </div>
                 </button>

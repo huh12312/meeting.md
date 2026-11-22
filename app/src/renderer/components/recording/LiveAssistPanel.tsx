@@ -23,12 +23,12 @@ function LightbulbIcon() {
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M10 2.5C6.54822 2.5 3.75 5.29822 3.75 8.75C3.75 10.9196 4.86607 12.8304 6.5625 13.9062V15.625C6.5625 16.3154 7.12214 16.875 7.8125 16.875H12.1875C12.8779 16.875 13.4375 16.3154 13.4375 15.625V13.9062C15.1339 12.8304 16.25 10.9196 16.25 8.75C16.25 5.29822 13.4518 2.5 10 2.5Z"
-        stroke="#EC5B16"
+        stroke="#1e3a8a"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <path d="M7.5 17.5H12.5" stroke="#EC5B16" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M7.5 17.5H12.5" stroke="#1e3a8a" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
   );
 }
@@ -39,7 +39,7 @@ function SayThisIcon() {
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M17.5 9.58333C17.5029 10.6832 17.2459 11.7682 16.75 12.75C16.162 13.9265 15.2581 14.916 14.1395 15.6077C13.021 16.2995 11.7319 16.6661 10.4167 16.6667C9.31678 16.6695 8.23176 16.4126 7.25 15.9167L2.5 17.5L4.08333 12.75C3.58744 11.7682 3.33047 10.6832 3.33333 9.58333C3.33393 8.26813 3.70051 6.97905 4.39227 5.86045C5.08402 4.74186 6.07355 3.83797 7.25 3.25C8.23176 2.75411 9.31678 2.49713 10.4167 2.5H10.8333C12.5703 2.59583 14.2109 3.32899 15.4409 4.55905C16.671 5.7891 17.4042 7.42973 17.5 9.16667V9.58333Z"
-        stroke="#EC5B16"
+        stroke="#1e3a8a"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -52,14 +52,14 @@ function SayThisIcon() {
 function AskThisIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="10" cy="10" r="7.5" stroke="#3B82F6" strokeWidth="1.5" />
+      <circle cx="10" cy="10" r="7.5" stroke="#0d9488" strokeWidth="1.5" />
       <path
         d="M7.5 7.5C7.5 6.11929 8.61929 5 10 5C11.3807 5 12.5 6.11929 12.5 7.5C12.5 8.88071 11.3807 10 10 10V11.25"
-        stroke="#3B82F6"
+        stroke="#0d9488"
         strokeWidth="1.5"
         strokeLinecap="round"
       />
-      <circle cx="10" cy="14" r="0.75" fill="#3B82F6" />
+      <circle cx="10" cy="14" r="0.75" fill="#0d9488" />
     </svg>
   );
 }
@@ -117,12 +117,12 @@ interface InsightItemProps {
 
 function InsightItem({ text, checked, onToggle, variant }: InsightItemProps) {
   const isSay = variant === 'say';
-  const bgColor = isSay ? 'bg-[#fff5ec]' : 'bg-[#d8e6fd]';
-  const borderColor = isSay ? 'border-[rgba(236,91,22,0.2)]' : 'border-[rgba(59,130,246,0.2)]';
+  const bgColor = isSay ? 'bg-[#eff4ff]' : 'bg-[#ccfbf1]';
+  const borderColor = isSay ? 'border-[rgba(30,58,138,0.2)]' : 'border-[rgba(13,148,136,0.2)]';
   const checkboxBg = checked
     ? isSay
-      ? 'bg-[#ec5b16] border-[#ec5b16]'
-      : 'bg-[#3b82f6] border-[#3b82f6]'
+      ? 'bg-[#1e3a8a] border-[#1e3a8a]'
+      : 'bg-[#0d9488] border-[#0d9488]'
     : 'bg-white border-[#969696]';
 
   return (
@@ -349,8 +349,8 @@ export function LiveAssistPanel() {
             disabled={isVisualAnalysisLoading}
             className={`flex items-center gap-[4px] px-[20px] py-[12px] rounded-[12px] shadow-[0px_1.272px_15.267px_0px_rgba(0,0,0,0.05)] transition-colors ${
               isVisualAnalysisLoading
-                ? 'bg-[#ff4000]/70 cursor-not-allowed'
-                : 'bg-[#ff4000] hover:bg-[#e63900]'
+                ? 'bg-[#1e40af]/70 cursor-not-allowed'
+                : 'bg-[#1e40af] hover:bg-[#1e3a8a]'
             }`}
           >
             {isVisualAnalysisLoading ? (
@@ -413,7 +413,7 @@ export function LiveAssistPanel() {
                       a: ({ href, children }) => (
                         <a
                           href={href}
-                          className="text-[#ec5b16] underline decoration-solid"
+                          className="text-[#1e3a8a] underline decoration-solid"
                           target="_blank"
                           rel="noopener noreferrer"
                         >

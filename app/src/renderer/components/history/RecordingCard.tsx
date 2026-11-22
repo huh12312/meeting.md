@@ -39,8 +39,8 @@ interface StatusConfig {
 const statusConfigs: Record<RecordingStatus, StatusConfig> = {
   recording: {
     label: 'Recording',
-    bgColor: 'bg-[#3b82f6]',
-    hoverBg: 'hover:bg-[#eff6ff]',
+    bgColor: 'bg-[#0d9488]',
+    hoverBg: 'hover:bg-[#f0fdfa]',
     hoverBorder: 'hover:border-[#93c5fd]',
     icon: <Circle className="h-4 w-4 fill-current" />,
   },
