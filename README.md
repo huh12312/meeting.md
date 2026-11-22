@@ -8,6 +8,10 @@ The desktop app is a fork of [Call.md](https://github.com/video-db/call.md) by
 VideoDB, which sends all of that to VideoDB's cloud. meeting.md is not
 affiliated with or endorsed by VideoDB.
 
+| Sign-in | Dashboard |
+| --- | --- |
+| ![Sign-in screen](docs/images/login.png) | ![Dashboard](docs/images/dashboard.png) |
+
 ```
 app/            desktop app (fork of Call.md): backend URL override, Linux recording
 capture-linux/  Linux stand-in for VideoDB's closed capture binary
