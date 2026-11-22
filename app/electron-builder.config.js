@@ -102,6 +102,8 @@ const config = {
   linux: {
     target: ['AppImage'],
     category: 'Office',
+    icon: 'resources/icon.png',
+    artifactName: 'meeting.md-${version}-${arch}.AppImage',
   },
   beforePack: async (context) => {
     const targetArch = context.arch;

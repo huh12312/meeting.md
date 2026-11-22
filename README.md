@@ -138,27 +138,63 @@ there for setups that standardise on the CLI.
 
 ## Run the app
 
+Enter any name and the API key from the server log. The app looks for the
+backend at `http://localhost:8080`; to point it elsewhere set
+`MEETING_MD_API_URL`, or put `{"apiUrl": "http://host:8080"}` in `runtime.json`
+in the app's user-data directory.
+
+### Linux
+
+Download `meeting.md-<version>-x86_64.AppImage` from the
+[latest release](https://github.com/huh12312/meeting.md/releases/latest), then:
+
+```sh
+chmod +x meeting.md-*.AppImage
+./meeting.md-*.AppImage
+```
+
+Recording needs `ffmpeg` and PipeWire or PulseAudio (`pactl`) on the machine.
+Screen capture uses x11grab on X11; on Wayland it goes through the desktop
+portal and needs `python-dbus`, `python-gobject` and the GStreamer PipeWire
+plugin (`gst-plugin-pipewire` on Arch, `gstreamer1.0-pipewire` on Debian and
+Ubuntu). Without those the app records audio only.
+
+### macOS and Windows: build from source
+
+There are no published installers for these platforms. Recording there uses
+VideoDB's capture binary, which is proprietary and has no redistribution
+license, so it is not shipped in any meeting.md release. Building the app
+yourself downloads it to your own machine from VideoDB, as installing Call.md
+would.
+
+Needs Node 22.12+ and git. Build on the platform you are targeting.
+
+```sh
+git clone https://github.com/huh12312/meeting.md && cd meeting.md/app
+npm install          # downloads Electron and, on macOS/Windows, VideoDB's capture binary
+npm run dist:mac     # macOS: DMG and ZIP in app/release/
+npm run dist:win     # Windows x64: installer in app/release/
+```
+
+Things to know before relying on it:
+
+- **Untested.** Neither build has been run for this fork, and the stock capture
+  binary has not been run against this server (see below).
+- **Server setting.** That binary only publishes over RTSPS with a pinned key:
+  set `RTSP_PUBLISH_URL=rtsps://<host>:8322` in the server's `.env`.
+- **Signing.** The builds are unsigned. macOS will refuse to open the app until
+  you allow it in System Settings → Privacy & Security, and microphone and
+  screen-recording permission may need re-granting after each rebuild. Windows
+  SmartScreen will warn on the installer.
+- **Do not publish the resulting installers**; they contain VideoDB's binary.
+
+### Any platform, for development
+
 ```sh
 cd app
 npm install        # on Linux this also installs the capture helper
-npm run dev        # or: npm run dist:linux / dist:mac / dist:win
+npm run dev
 ```
-
-Enter any name and the API key from the server log. The backend URL comes from,
-in order: `MEETING_MD_API_URL`, `runtime.json` in the app's user-data directory,
-then the bundled `runtime.json` (`http://localhost:8080`).
-
-Linux recording needs `ffmpeg` and PipeWire/PulseAudio (`pactl`). Screen capture
-uses x11grab on X11; on Wayland it goes through the desktop portal and needs
-`python-dbus`, `python-gobject` and the GStreamer PipeWire plugin
-(`gst-plugin-pipewire` on Arch). If those are missing the app records audio only.
-
-### macOS and Windows
-
-Upstream's own capture binary works against this backend in principle: it speaks
-the same control API and publishes RTSP. It insists on RTSPS with a pinned
-key, so set `RTSP_PUBLISH_URL=rtsps://<host>:8322`. **This path is untested** — see
-below.
 
 ## What was verified, and what was not
 
@@ -179,6 +215,8 @@ Verified on Linux (Arch, Node 26, ffmpeg 9), against the unmodified `videodb`
   through the SDK-driven end-to-end test and a recording from the app
 - back-to-back meetings in one app session, each getting its own live-assist
   context
+- the packaged Linux AppImage: sign-in, a recording with microphone, system
+  audio and screen, and export
 - `anthropic` provider against a mock Messages endpoint through the real SDK:
   request translation, tool round-trips with thinking blocks replayed, images,
   JSON mode, streaming, refusal and error mapping
@@ -237,17 +275,24 @@ cd app && API_KEY=… npx tsx ../e2e/replay-live-assist.ts <server DATA_DIR> ../
 
 ## Releases
 
-Pushing a tag `vX.Y.Z` runs `.github/workflows/release.yml`: it runs the server
-tests, builds the server image for amd64 and arm64, and pushes it to Docker Hub
-as `<user>/meeting.md` tagged `X.Y.Z`, `X.Y` and `latest`. One-time setup in the
-GitHub repository settings:
+Pushing a tag `vX.Y.Z` runs `.github/workflows/release.yml`, which:
+
+- runs the server tests, builds the server image for amd64 and arm64, and
+  pushes it to Docker Hub as `<user>/meeting.md` tagged `X.Y.Z`, `X.Y` and
+  `latest`
+- runs the app's type check and tests, builds the Linux AppImage, and attaches
+  it to a GitHub release for the tag
+
+One-time setup in the GitHub repository settings:
 
 - variable `DOCKERHUB_USERNAME`: your Docker Hub user or organisation
 - secret `DOCKERHUB_TOKEN`: a Docker Hub access token with write access
 
 The image contains the API server, ffmpeg and the Claude Code CLI (about 1 GB;
-build with `--build-arg INSTALL_CLAUDE_CODE=0` for a 475 MB image without it). MediaMTX and
-the Whisper server are pulled from their own registries by `docker-compose.yml`.
+build with `--build-arg INSTALL_CLAUDE_CODE=0` for a 475 MB image without it).
+MediaMTX and the Whisper server are pulled from their own registries by
+`docker-compose.yml`. macOS and Windows installers are deliberately not built;
+see "macOS and Windows: build from source".
 
 ## License
 

@@ -1,8 +1,13 @@
 name: Release
 
-# Pushing a tag such as v1.2.3 tests the server, then builds its image and
-# publishes it to Docker Hub as <DOCKERHUB_USERNAME>/meeting.md:1.2.3, :1.2
-# and :latest.
+# Pushing a tag such as v1.2.3:
+#   - tests the server, builds its image and publishes it to Docker Hub as
+#     <DOCKERHUB_USERNAME>/meeting.md:1.2.3, :1.2 and :latest
+#   - tests the desktop app, builds the Linux AppImage and attaches it to a
+#     GitHub release for the tag
+#
+# macOS and Windows installers are not built here on purpose: they would bundle
+# VideoDB's proprietary capture binary, which may not be redistributed.
 #
 # Repository settings needed once:
 #   variable DOCKERHUB_USERNAME   Docker Hub user or organisation
@@ -75,3 +80,41 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+  appimage:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+
+      # Also copies ../capture-linux into the slot the videodb SDK looks in.
+      - run: npm ci
+
+      - name: Use the tag as the app version
+        run: npm version --no-git-tag-version --allow-same-version "${GITHUB_REF_NAME#v}"
+
+      - run: npm run typecheck
+      - run: npm test
+
+      - name: Build the AppImage
+        run: npm run dist:linux -- --publish never
+
+      - name: Attach it to the GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" release/*.AppImage --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" release/*.AppImage \
+              --title "meeting.md ${GITHUB_REF_NAME#v}" --generate-notes
+          fi

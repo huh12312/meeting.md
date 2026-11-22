@@ -1,6 +1,6 @@
 {
   "name": "meeting-md",
-  "version": "1.0.4",
+  "version": "0.1.1",
   "type": "commonjs",
   "description": "meeting.md - Record meetings with real-time transcription and AI-powered insights",
   "author": {
